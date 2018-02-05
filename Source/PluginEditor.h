@@ -16,7 +16,8 @@
 //==============================================================================
 /**
 */
-class PlutoAudioProcessorEditor  : public AudioProcessorEditor
+class PlutoAudioProcessorEditor  : public AudioProcessorEditor,
+public Slider::Listener
 {
 public:
     PlutoAudioProcessorEditor (PlutoAudioProcessor&);
@@ -25,11 +26,17 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    void sliderValueChanged(Slider *slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     PlutoAudioProcessor& processor;
+    
+    Slider attackSlider;
+    Slider releaseSlider;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackTree;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseTree;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

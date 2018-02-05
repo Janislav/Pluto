@@ -56,6 +56,10 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    float attackTime;
+    float releaseTime;
+    AudioProcessorValueTreeState tree;
 
 private:
     //==============================================================================
@@ -67,6 +71,7 @@ private:
     double increment;
     double amplitute;
     Synthesiser synth;
+    SynthVoice* voice;
     double lastSampleRate;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessor)

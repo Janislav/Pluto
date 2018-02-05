@@ -22,9 +22,19 @@ PlutoAudioProcessor::PlutoAudioProcessor()
                       #endif
                        .withOutput ("Output", AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+attackTime(0.1f),
+releaseTime(0.1f),
+tree (*this, nullptr)
 #endif
 {
+    
+    NormalisableRange<float> attackParam(0.1f, 5000.0f);
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
+    
+    NormalisableRange<float> releaseParam(0.1f, 5000.0f);
+    tree.createAndAddParameter("release", "Release", "Attack", releaseParam, 0.1f, nullptr, nullptr);
+    
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -157,44 +167,17 @@ bool PlutoAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 
 void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    ScopedNoDenormals noDenormals;
-    const int totalNumInputChannels  = getTotalNumInputChannels();
-    const int totalNumOutputChannels = getTotalNumOutputChannels();
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     
+    for(int i = 0;i< synth.getNumVoices();i++)
+    {
+        if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
+        {
+            voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"));
+        }
+    }
     
     buffer.clear();
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-    
-    /*
-    for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-
-    Random ranGenerator;
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    for (int channel = 0; channel < totalNumOutputChannels; ++channel)
-    {
-        float* channelData = buffer.getWritePointer (channel);
-        
-        for(int sample=0;sample<buffer.getNumSamples();sample++)
-        {
-            /*
-            float output = (ranGenerator.nextFloat() * 2.0f - 1.0f) * 0.25f;
-            std::cout << "Output: " << output << std::endl;
-            channelData[sample] = output;
-     
-            channelData[sample] = waveTable[(int)phase] * amplitute;
-            phase = fmod((phase+increment), twSize);
-        }
-    }*/
 }
 
 //==============================================================================
