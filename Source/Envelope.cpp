@@ -21,26 +21,26 @@ processor(p)
     setSize(200, 200);
     
     attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    attackSlider.setRange(0.0, 5000.0f);
-    attackSlider.setTextBoxStyle(Slider::TextBoxBelow,true, 40.0, 20.0);
+    attackSlider.setRange(0.0, 50.0f);
+    attackSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     attackSlider.addListener(this);
     addAndMakeVisible(attackSlider);
     
     releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
     releaseSlider.setRange(0.0, 5000.0f);
-    releaseSlider.setTextBoxStyle(Slider::TextBoxBelow,true, 40.0, 20.0);
+    releaseSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     releaseSlider.addListener(this);
     addAndMakeVisible(releaseSlider);
     
     decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    decaySlider.setRange(0.0, 5000.0f);
-    decaySlider.setTextBoxStyle(Slider::TextBoxBelow,true, 40.0, 20.0);
+    decaySlider.setRange(0.0, 2000.0f);
+    decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     decaySlider.addListener(this);
     addAndMakeVisible(decaySlider);
     
     sustainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    sustainSlider.setRange(0.0, 5000.0f);
-    sustainSlider.setTextBoxStyle(Slider::TextBoxBelow,true, 40.0, 20.0);
+    sustainSlider.setRange(0.0, 2000.0f);
+    sustainSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     sustainSlider.addListener(this);
     addAndMakeVisible(sustainSlider);
     
@@ -52,7 +52,6 @@ processor(p)
     decayTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "decay", decaySlider);
     
     sustainTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "sustain", sustainSlider);
-
 }
 
 Envelope::~Envelope()
@@ -61,18 +60,32 @@ Envelope::~Envelope()
 
 void Envelope::paint (Graphics& g)
 {
+    Rectangle<int> titleArea (0,10,getWidth(),20);
     g.fillAll(Colours::black);
+    g.setColour(Colours::white);
+    g.drawText("Envelope", titleArea, Justification::centredTop);
+    
+    g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
+    g.drawText("B", 77, 150, 20, 20, Justification::centredTop);
+    g.drawText("C", 103, 150, 20, 20, Justification::centredTop);
+    g.drawText("D", 128, 150, 20, 20, Justification::centredTop);
+    
+    Rectangle<float> area (25,25,150,150);
+    g.setColour(Colours::yellow);
+    g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }
 
 void Envelope::resized()
 {
-
-    Rectangle<int> area = getLocalBounds().reduced(40);
+    Rectangle<int> area = getLocalBounds().reduced(50);
     
-    attackSlider.setBounds(0, 10, 40, 100);
-    releaseSlider.setBounds(50, 10, 40, 100);
-    decaySlider.setBounds(100, 10, 40, 100);
-    sustainSlider.setBounds(150, 10, 40, 100);
+    int sliderHeight = 175;
+    int sliderWidth = 25;
+    
+    attackSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    releaseSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    decaySlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
+    sustainSlider.setBounds(area.removeFromLeft(sliderWidth).removeFromTop(sliderHeight).withTrimmedTop(10));
 }
 
 void Envelope::sliderValueChanged(Slider* slider)

@@ -53,6 +53,39 @@ public:
         return osc1.sinewave(frequency);
     }
     
+    void getFilterParams(float* filterType, float* filterCutoff, float* filterRes)
+    {
+        filterChoice = int(*filterType);
+        cutoff = *filterCutoff;
+        resonance = *filterRes;
+    }
+    
+    double setEnvelope()
+    {
+       return env1.adsr(setOscType(), env1.trigger) * level;
+    }
+    
+    double setFilter()
+    {
+        if(filterChoice == 0)
+        {
+            return filter1.lores(setEnvelope(), cutoff, resonance);
+        }
+        
+        if(filterChoice == 1)
+        {
+            //return filter1.hires(setEnvelope(), cutoff, reso);
+        }
+        
+        if(filterChoice == 2)
+        {
+            return filter1.bandpass(setEnvelope(), cutoff, resonance);
+
+        }
+        
+        return 0.0;
+    }
+    
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
     {
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -79,17 +112,11 @@ public:
     
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSample)
     {
-        
-        //env1.setAttack(2000);
-        //env1.setDecay(500);
-        //env1.setSustain(0.8);
-        //env1.setRelease(2000);
-        
         for(int sample = 0;sample < numSample;++sample)
         {
             //double theWave = osc1.sinewave(frequency);
-            double theSound = env1.adsr(setOscType(), env1.trigger) * level;
-            double filterSound = filter1.lores(theSound, 200, 0.1);
+            //double theSound = env1.adsr(setOscType(), env1.trigger) * level;
+            double filterSound = filter1.lores(setEnvelope(), 200, 0.1);
             
             for(int channel = 0;channel < outputBuffer.getNumChannels(); ++channel)
             {
@@ -106,4 +133,7 @@ private:
     maxiEnv env1;
     maxiFilter filter1;
     int theWave;
+    int filterChoice;
+    float cutoff;
+    float resonance;
 };

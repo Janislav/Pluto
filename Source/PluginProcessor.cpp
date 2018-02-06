@@ -46,6 +46,19 @@ tree (*this, nullptr)
     NormalisableRange<float> wavetypeParam(0, 2);
     tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
     
+    
+    /*
+    
+    NormalisableRange<float> filterCutOffParam(20, 10000);
+    tree.createAndAddParameter("cutoff", "CutOff", "CutOff", filterCutOffParam, 400.0, nullptr, nullptr);
+    
+    NormalisableRange<float> resParam(1, 5);
+    tree.createAndAddParameter("res", "Res", "Res", resParam, 1, nullptr, nullptr);
+    
+    NormalisableRange<float> filterType(0, 2);
+    tree.createAndAddParameter("filterType", "FilterType", "FilterType", filterType, 0, nullptr, nullptr);
+    
+     */
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -126,21 +139,6 @@ void PlutoAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void PlutoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-    
-    /*
-    wtFreq = 440;
-    phase = 0;
-    twSize = 1024;
-    increment = wtFreq * twSize / sampleRate;
-    amplitute = 0.25;
-    
-    for(int i=0;i<twSize;i++)
-    {
-        waveTable.insert(i, sin(2.0* double_Pi* i / twSize));
-    }*/
-    
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
     synth.setCurrentPlaybackSampleRate(lastSampleRate);
@@ -184,8 +182,8 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
-            
             voice->getOscType(tree.getRawParameterValue("wavetype"));
+            //voice->getFilterParams(tree.getRawParameterValue("filterType"), tree.getRawParameterValue("cutoff"), tree.getRawParameterValue("res"));
         }
     }
     

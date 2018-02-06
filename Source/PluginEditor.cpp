@@ -14,13 +14,14 @@
 
 //==============================================================================
 PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p)
+    : AudioProcessorEditor (&p), processor (p), oscGui(p), envGui(p), filterGui(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 200);
+    setSize (600, 200);
     addAndMakeVisible(oscGui);
     addAndMakeVisible(envGui);
+    addAndMakeVisible(filterGui);
 }
 
 PlutoAudioProcessorEditor::~PlutoAudioProcessorEditor()
@@ -47,4 +48,5 @@ void PlutoAudioProcessorEditor::resized()
     
     oscGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
 }
