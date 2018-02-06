@@ -30,8 +30,6 @@
           <FILE id="zeZoTn" name="maxim.h" compile="0" resource="0" file="../../libs/Maximilian/libs/maxim.h"/>
           <FILE id="yUrOSr" name="maxiMFCC.cpp" compile="1" resource="0" file="../../libs/Maximilian/libs/maxiMFCC.cpp"/>
           <FILE id="oBEyrq" name="maxiMFCC.h" compile="0" resource="0" file="../../libs/Maximilian/libs/maxiMFCC.h"/>
-          <FILE id="w6CQhS" name="maxiSynths.cpp" compile="1" resource="0" file="../../libs/Maximilian/libs/maxiSynths.cpp"/>
-          <FILE id="sswl8i" name="maxiSynths.h" compile="0" resource="0" file="../../libs/Maximilian/libs/maxiSynths.h"/>
           <FILE id="I2xPzn" name="sineTable.h" compile="0" resource="0" file="../../libs/Maximilian/libs/sineTable.h"/>
         </GROUP>
         <FILE id="Npdb8v" name="maximilian.cpp" compile="1" resource="0" file="../../libs/Maximilian/maximilian.cpp"/>
@@ -45,6 +43,10 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="n7RuJd" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="UqwR5c" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
+      <FILE id="BUo7OD" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+      <FILE id="qse4sb" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
+      <FILE id="KkyBQM" name="Envelope.cpp" compile="1" resource="0" file="Source/Envelope.cpp"/>
+      <FILE id="JpgARz" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

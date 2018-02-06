@@ -12,12 +12,13 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "Oscillator.h"
+#include "Envelope.h"
 
 //==============================================================================
 /**
 */
-class PlutoAudioProcessorEditor  : public AudioProcessorEditor,
-public Slider::Listener
+class PlutoAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
     PlutoAudioProcessorEditor (PlutoAudioProcessor&);
@@ -26,21 +27,14 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
-    void sliderValueChanged(Slider *slider) override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     PlutoAudioProcessor& processor;
     
-    Slider attackSlider;
-    Slider releaseSlider;
-    Slider decaySlider;
-    Slider sustainSlider;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackTree;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseTree;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> sustainTree;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> decayTree;
+    Oscillator oscGui;
+    Envelope envGui;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

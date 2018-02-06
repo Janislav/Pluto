@@ -43,6 +43,9 @@ tree (*this, nullptr)
     NormalisableRange<float> sustainParam(0.1f, 5000.0f);
     tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 0.1f, nullptr, nullptr);
     
+    NormalisableRange<float> wavetypeParam(0, 2);
+    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
+    
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -181,6 +184,8 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
+            
+            voice->getOscType(tree.getRawParameterValue("wavetype"));
         }
     }
     

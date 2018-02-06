@@ -31,6 +31,28 @@ public:
         env1.setSustain(double(*sustain));
     }
     
+    void getOscType(float* selection)
+    {
+        theWave = *selection;
+    }
+    
+    double setOscType()
+    {
+        if(theWave == 0)
+        {
+            return osc1.sinewave(frequency);
+        }
+        if(theWave == 1)
+        {
+            return osc1.saw(frequency);
+        }
+        if(theWave == 2){
+            return osc1.square(frequency);
+        }
+        
+        return osc1.sinewave(frequency);
+    }
+    
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
     {
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -65,8 +87,8 @@ public:
         
         for(int sample = 0;sample < numSample;++sample)
         {
-            double theWave = osc1.sinewave(frequency);
-            double theSound = env1.adsr(theWave, env1.trigger) * level;
+            //double theWave = osc1.sinewave(frequency);
+            double theSound = env1.adsr(setOscType(), env1.trigger) * level;
             double filterSound = filter1.lores(theSound, 200, 0.1);
             
             for(int channel = 0;channel < outputBuffer.getNumChannels(); ++channel)
@@ -83,4 +105,5 @@ private:
     maxiOsc osc1;
     maxiEnv env1;
     maxiFilter filter1;
+    int theWave;
 };
