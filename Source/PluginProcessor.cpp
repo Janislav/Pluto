@@ -25,6 +25,8 @@ PlutoAudioProcessor::PlutoAudioProcessor()
                        ),
 attackTime(0.1f),
 releaseTime(0.1f),
+decayTime(0.1f),
+sustainTime(0.1f),
 tree (*this, nullptr)
 #endif
 {
@@ -34,6 +36,12 @@ tree (*this, nullptr)
     
     NormalisableRange<float> releaseParam(0.1f, 5000.0f);
     tree.createAndAddParameter("release", "Release", "Attack", releaseParam, 0.1f, nullptr, nullptr);
+    
+    NormalisableRange<float> decayParam(0.1f, 5000.0f);
+    tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 0.1f, nullptr, nullptr);
+    
+    NormalisableRange<float> sustainParam(0.1f, 5000.0f);
+    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 0.1f, nullptr, nullptr);
     
     synth.clearVoices();
     
@@ -172,7 +180,7 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     {
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
-            voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"));
+            voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
         }
     }
     

@@ -23,10 +23,12 @@ public:
         return dynamic_cast<SynthSound*>(sound) != nullptr;
     }
     
-    void getParam(float* attack, float* release)
+    void getParam(float* attack, float* release, float* decay, float* sustain)
     {
         env1.setAttack(double(*attack));
         env1.setRelease(double(*release));
+        env1.setDecay(double(*decay));
+        env1.setSustain(double(*sustain));
     }
     
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
@@ -34,7 +36,7 @@ public:
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
         level = velocity;
         env1.trigger = 1;
-        std::cout << midiNoteNumber << std::endl;
+        //std::cout << midiNoteNumber << std::endl;
     }
     
     void stopNote(float velocity, bool allowTailOff)
@@ -57,8 +59,8 @@ public:
     {
         
         //env1.setAttack(2000);
-        env1.setDecay(500);
-        env1.setSustain(0.8);
+        //env1.setDecay(500);
+        //env1.setSustain(0.8);
         //env1.setRelease(2000);
         
         for(int sample = 0;sample < numSample;++sample)

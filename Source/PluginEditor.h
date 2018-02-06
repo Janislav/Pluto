@@ -35,8 +35,12 @@ private:
     
     Slider attackSlider;
     Slider releaseSlider;
+    Slider decaySlider;
+    Slider sustainSlider;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackTree;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseTree;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> sustainTree;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> decayTree;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };
