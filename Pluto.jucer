@@ -51,6 +51,7 @@
       <FILE id="oW0LFI" name="Filter.h" compile="0" resource="0" file="Source/Filter.h"/>
       <FILE id="fapzbE" name="Osc.cpp" compile="1" resource="0" file="Source/Osc.cpp"/>
       <FILE id="SR17TM" name="Osc.h" compile="0" resource="0" file="Source/Osc.h"/>
+      <FILE id="caS4eB" name="waves.h" compile="0" resource="0" file="Source/waves.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

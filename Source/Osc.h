@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "waves.h"
 
 //==============================================================================
 /*
@@ -37,6 +38,7 @@ private:
     TextButton waveSelector;
     Slider transpose;
     Slider tune;
+    Slider ghost;
     
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> waveVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> transposeVal;

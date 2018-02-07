@@ -23,7 +23,7 @@ processor(p)
     
     setSize(200, 200);
     
-    WAVE = 0;
+    WAVE = SINE;
     
     waveSelector.setName("waveSelector");
     waveSelector.setButtonText("SINE");
@@ -39,11 +39,15 @@ processor(p)
     tune.setRange(-12, 12);
     tune.setValue(0);
     
+    ghost.setRange(0, 2);
+    ghost.setValue(WAVE);
+    
     Rectangle<int> waveSelectorForm (38,35,125,75);
     waveSelector.setBounds(waveSelectorForm);
     
     transposeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-transpose", transpose);
     tuneVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-tune", tune);
+    waveVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-wave", ghost);
     
     addAndMakeVisible(waveSelector);
     addAndMakeVisible(transpose);
@@ -77,22 +81,25 @@ void Osc::resized()
 
 void Osc::buttonClicked(Button* button)
 {
-    if(WAVE == 0)
+    if(WAVE == SINE)
     {
-        WAVE = 1;
+        WAVE = SAW;
         waveSelector.setButtonText("SAW");
+        ghost.setValue(WAVE);
         return;
     }
-    if(WAVE == 1)
+    if(WAVE == SAW)
     {
-        WAVE = 2;
+        WAVE = SQUARE;
         waveSelector.setButtonText("SQUARE");
+        ghost.setValue(WAVE);
         return;
     }
-    if(WAVE == 2)
+    if(WAVE == SQUARE)
     {
-        WAVE = 0;
+        WAVE = SINE;
         waveSelector.setButtonText("SINE");
+        ghost.setValue(WAVE);
         return;
     }
 }

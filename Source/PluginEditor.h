@@ -38,7 +38,10 @@ private:
     Oscillator oscGui;
     Envelope envGui;
     Filter filterGui;
+    
     Osc o1;
+    Osc o2;
+    Osc o3;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

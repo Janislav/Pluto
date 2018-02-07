@@ -20,30 +20,29 @@ processor(p)
     
     setSize(200, 200);
     
-    attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    attackSlider.setRange(0.0, 50.0f);
+    attackSlider.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
+    attackSlider.setRange(0.0, 5.0f);
     attackSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     attackSlider.addListener(this);
     addAndMakeVisible(attackSlider);
     
-    releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+    releaseSlider.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
     releaseSlider.setRange(0.0, 5000.0f);
     releaseSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     releaseSlider.addListener(this);
     addAndMakeVisible(releaseSlider);
     
-    decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    decaySlider.setRange(0.0, 2000.0f);
+    decaySlider.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
+    decaySlider.setRange(0.0, 2.0f);
     decaySlider.setTextBoxStyle(Slider::NoTextBox, true, 0, 0);
     decaySlider.addListener(this);
     addAndMakeVisible(decaySlider);
     
-    sustainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-    sustainSlider.setRange(0.0, 2000.0f);
+    sustainSlider.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
+    sustainSlider.setRange(0.0, 2.0f);
     sustainSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     sustainSlider.addListener(this);
     addAndMakeVisible(sustainSlider);
-    
     
     attackTree = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackSlider);
     
@@ -61,18 +60,19 @@ Envelope::~Envelope()
 void Envelope::paint (Graphics& g)
 {
     Rectangle<int> titleArea (0,10,getWidth(),20);
-    g.fillAll(Colours::black);
+    //g.fillAll(Colours::black);
     g.setColour(Colours::white);
-    g.drawText("Envelope", titleArea, Justification::centredTop);
+    g.drawText("ENVELOPE", titleArea, Justification::centredTop);
     
-    g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
-    g.drawText("B", 77, 150, 20, 20, Justification::centredTop);
-    g.drawText("C", 103, 150, 20, 20, Justification::centredTop);
-    g.drawText("D", 128, 150, 20, 20, Justification::centredTop);
+    g.drawText("At", 53, 150, 20, 20, Justification::centredTop);
+    g.drawText("Re", 77, 150, 20, 20, Justification::centredTop);
+    g.drawText("De", 103, 150, 20, 20, Justification::centredTop);
+    g.drawText("Su", 128, 150, 20, 20, Justification::centredTop);
     
+    /**
     Rectangle<float> area (25,25,150,150);
     g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.drawRoundedRectangle(area, 20.0f, 2.0f);*/
 }
 
 void Envelope::resized()
