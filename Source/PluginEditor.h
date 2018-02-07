@@ -15,6 +15,7 @@
 #include "Oscillator.h"
 #include "Envelope.h"
 #include "Filter.h"
+#include "Osc.h"
 
 //==============================================================================
 /**
@@ -37,6 +38,7 @@ private:
     Oscillator oscGui;
     Envelope envGui;
     Filter filterGui;
+    Osc o1;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };
