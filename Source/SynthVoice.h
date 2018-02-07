@@ -91,7 +91,6 @@ public:
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
         level = velocity;
         env1.trigger = 1;
-        //std::cout << midiNoteNumber << std::endl;
     }
     
     void stopNote(float velocity, bool allowTailOff)
