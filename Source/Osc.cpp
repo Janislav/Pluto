@@ -15,9 +15,6 @@
 Osc::Osc(PlutoAudioProcessor& p, string id, string title) :
 processor(p)
 {
-    // In your constructor, you should add any child components, and
-    // initialise any special settings that your component needs.
-    
     this->id = id;
     this->title = title;
     
@@ -29,29 +26,27 @@ processor(p)
     waveSelector.setButtonText("SINE");
     waveSelector.addListener(this);
     
+    volume.setSliderStyle(Slider::SliderStyle::LinearBar);
+    volume.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    volume.setRange(0, 2);
+    
     transpose.setSliderStyle(Slider::SliderStyle::LinearBar);
     transpose.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    transpose.setRange(-12, 12);
-    transpose.setValue(0);
+    transpose.setRange(-12, 12, 1);
     
-    tune.setSliderStyle(Slider::SliderStyle::LinearBar);
-    tune.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    tune.setRange(-12, 12);
-    tune.setValue(0);
-    
-    ghost.setRange(0, 2);
+    ghost.setRange(0, 2, 1);
     ghost.setValue(WAVE);
     
     Rectangle<int> waveSelectorForm (38,35,125,75);
     waveSelector.setBounds(waveSelectorForm);
     
+    volumeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-volume", volume);
     transposeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-transpose", transpose);
-    tuneVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-tune", tune);
     waveVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-wave", ghost);
     
     addAndMakeVisible(waveSelector);
+    addAndMakeVisible(volume);
     addAndMakeVisible(transpose);
-    addAndMakeVisible(tune);
 }
 
 Osc::~Osc()
@@ -62,20 +57,15 @@ void Osc::paint (Graphics& g)
 {
     Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
-    //g.fillAll(Colours::black);
     g.setColour(Colours::white);
     g.drawText(title, titleArea, Justification::centredTop);
-    
-    /*Rectangle<float> area(25,25,150,150);
-    g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);*/
 }
 
 void Osc::resized()
 {
     Rectangle<int> area = getLocalBounds().reduced(40);
     transpose.setBounds(38,120,125,20);
-    tune.setBounds(38,150,125,20);
+    volume.setBounds(38,150,125,20);
     waveSelector.setBounds(area.removeFromTop(20));
 }
 

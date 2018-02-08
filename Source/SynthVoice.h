@@ -15,6 +15,8 @@
 #include "maximilian.h"
 #include "waves.h"
 
+#define FACT 1.059463094
+
 class SynthVoice : public SynthesiserVoice
 {
 public:
@@ -30,44 +32,10 @@ public:
     
     void getParam(float* attack, float* release, float* decay, float* sustain)
     {
-        env1.setAttack(double(*attack));
-        env1.setRelease(double(*release));
-        env1.setDecay(double(*decay));
-        env1.setSustain(double(*sustain));
-    }
-    
-    void getOscType(float* selection)
-    {
-        theWave = *selection;
-    }
-    
-    double setOscType()
-    {
-        if(theWave == 0)
-        {
-            return osc1.sinewave(frequency);
-        }
-        if(theWave == 1)
-        {
-            return osc1.saw(frequency);
-        }
-        if(theWave == 2){
-            return osc1.square(frequency);
-        }
-        
-        return osc1.sinewave(frequency);
-    }
-    
-    void getFilterParams(float* filterType, float* filterCutoff, float* filterRes)
-    {
-        filterChoice = int(*filterType);
-        cutoff = *filterCutoff;
-        resonance = *filterRes;
-    }
-    
-    double setEnvelope()
-    {
-       return env1.adsr(setOscType(), env1.trigger) * level;
+        env.setAttack(double(*attack));
+        env.setRelease(double(*release));
+        env.setDecay(double(*decay));
+        env.setSustain(double(*sustain));
     }
     
     void setWaveTypes(float* osc1, float* osc2, float* osc3)
@@ -77,89 +45,112 @@ public:
         oscWave3 = *osc3;
     }
     
+    double transpose(int v, double frequency)
+    {
+        if(v == 0)
+        {
+            return frequency;
+        }
+        
+        unsigned int vv = abs(v);
+        
+        //down scale
+        if(v < 0)
+        {
+            while(vv != 0)
+            {
+                frequency = frequency / FACT;
+                vv--;
+            }
+        }else //up scale
+        {
+            while(vv != 0)
+            {
+                frequency = frequency * FACT;
+                vv--;
+            }
+        }
+        
+        return frequency;
+    }
+    
     double getWave(){
         
         double w = 0.0;
         
         if(oscWave1 == SINE)
         {
-            w =  env1.adsr(osc1.sinewave(frequency), env1.trigger) * level;
+            w =  env.adsr(osc1.sinewave(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
         }
         
         if(oscWave1 == SAW)
         {
-            w =  env1.adsr(osc1.saw(frequency), env1.trigger) * level;
+            w =  env.adsr(osc1.saw(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
         }
         
         if(oscWave1 == SQUARE)
         {
-            w =  env1.adsr(osc1.square(frequency), env1.trigger) * level;
+            w =  env.adsr(osc1.square(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
         }
         
         if(oscWave2 == SINE)
         {
-            w =  w + env1.adsr(osc1.sinewave(frequency), env1.trigger) * level;
+            w =  w + env.adsr(osc1.sinewave(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
         }
         
         if(oscWave2 == SAW)
         {
-            w = w + env1.adsr(osc1.saw(frequency), env1.trigger) * level;
+            w = w + env.adsr(osc1.saw(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
         }
         
         if(oscWave2 == SQUARE)
         {
-            w = w + env1.adsr(osc1.square(frequency), env1.trigger) * level;
+            w = w + env.adsr(osc1.square(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
         }
         
         if(oscWave3 == SINE)
         {
-            w =  w + env1.adsr(osc1.sinewave(frequency), env1.trigger) * level;
+            w =  w + env.adsr(osc1.sinewave(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
         }
         
         if(oscWave3 == SAW)
         {
-            w = w + env1.adsr(osc1.saw(frequency), env1.trigger) * level;
+            w = w + env.adsr(osc1.saw(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
         }
         
         if(oscWave3 == SQUARE)
         {
-            w = w + env1.adsr(osc1.square(frequency), env1.trigger) * level;
+            w = w + env.adsr(osc1.square(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
         }
         
         return w/3;
     }
     
-    double setFilter()
+    void setVolume(float* osc1V, float* osc2V, float* osc3V)
     {
-        if(filterChoice == 0)
-        {
-            return filter1.lores(setEnvelope(), cutoff, resonance);
-        }
+        osc1Volume = *osc1V;
+        osc2Volume = *osc2V;
+        osc3Volume = *osc3V;
+    }
+    
+    void setTranspose(float* t1, float* t2, float* t3)
+    {
+        osc1Transpose = *t1;
+        osc2Transpose = *t2;
+        osc3Transpose = *t3;
         
-        if(filterChoice == 1)
-        {
-            //return filter1.hires(setEnvelope(), cutoff, reso);
-        }
-        
-        if(filterChoice == 2)
-        {
-            return filter1.bandpass(setEnvelope(), cutoff, resonance);
-
-        }
-        
-        return 0.0;
+        //std::cout << "t1 " << osc1Transpose << "t2 " << osc2Transpose << "t3 " << osc3Transpose << std::endl;
     }
     
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
     {
         frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-        level = velocity;
-        env1.trigger = 1;
+        env.trigger = 1;
     }
     
     void stopNote(float velocity, bool allowTailOff)
     {
-        env1.trigger = 0;
+        env.trigger = 0;
         allowTailOff = true;
         if(velocity == 0)
         {
@@ -177,9 +168,6 @@ public:
     {
         for(int sample = 0;sample < numSample;++sample)
         {
-            //double theWave = osc1.sinewave(frequency);
-            //double theSound = env1.adsr(setOscType(), env1.trigger) * level;
-            //double filterSound = filter1.lores(setEnvelope(), 200, 0.1);
             double wave = getWave();
             //wave = filter1.lores(wave, 100, 0.1);
             
@@ -192,22 +180,22 @@ public:
     }
     
 private:
-    double level;
     double frequency;
     
     maxiOsc osc1;
-    maxiOsc osc2;
-    maxiOsc osc3;
+    
+    int osc1Transpose;
+    int osc2Transpose;
+    int osc3Transpose;
+    
+    float osc1Volume;
+    float osc2Volume;
+    float osc3Volume;
     
     int oscWave1;
     int oscWave2;
     int oscWave3;
     
-    maxiEnv env1;
+    maxiEnv env;
     maxiFilter filter1;
-    maxiMix mixer;
-    int theWave;
-    int filterChoice;
-    float cutoff;
-    float resonance;
 };

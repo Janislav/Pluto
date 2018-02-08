@@ -31,28 +31,23 @@ tree (*this, nullptr)
 #endif
 {
 
-    NormalisableRange<float> attackParam(0.1f, 5000.0f);
-    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 0.1f, nullptr, nullptr);
+    NormalisableRange<float> attackParam(0.0f, 5.0f);
+    tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 3.0f, nullptr, nullptr);
     
-    NormalisableRange<float> releaseParam(0.1f, 5000.0f);
-    tree.createAndAddParameter("release", "Release", "Attack", releaseParam, 0.1f, nullptr, nullptr);
+    NormalisableRange<float> releaseParam(0.0f, 5000.0f);
+    tree.createAndAddParameter("release", "Release", "Attack", releaseParam, 2000.0f, nullptr, nullptr);
     
-    NormalisableRange<float> decayParam(0.1f, 5000.0f);
-    tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 0.1f, nullptr, nullptr);
+    NormalisableRange<float> decayParam(0.0f, 2.0f);
+    tree.createAndAddParameter("decay", "Decay", "Decay", decayParam, 1.0f, nullptr, nullptr);
     
-    NormalisableRange<float> sustainParam(0.1f, 5000.0f);
-    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 0.1f, nullptr, nullptr);
+    NormalisableRange<float> sustainParam(0.0f, 2.0f);
+    tree.createAndAddParameter("sustain", "Sustain", "Sustain", sustainParam, 0.5f, nullptr, nullptr);
     
-    /*
-    NormalisableRange<float> wavetypeParam(0, 2);
-    tree.createAndAddParameter("wavetype", "Wavetype", "Wavetype", wavetypeParam, 0, nullptr, nullptr);
-*/
-     
     NormalisableRange<float> osc1Transpose(-12, 12);
     tree.createAndAddParameter("osc1-transpose", "Osc1Transpose", "Osc1Transpose", osc1Transpose, 0, nullptr, nullptr);
     
-    NormalisableRange<float> osc1Tune(-12, 12);
-    tree.createAndAddParameter("osc1-tune", "Osc1Tune", "Osc1Tune", osc1Tune, 0, nullptr, nullptr);
+    NormalisableRange<float> osc1Volume(0, 2);
+    tree.createAndAddParameter("osc1-volume", "osc1-volume", "osc1-volume", osc1Volume, 1, nullptr, nullptr);
     
     NormalisableRange<float> osc1Wave(0, 2);
     tree.createAndAddParameter("osc1-wave", "Osc1Wave", "Osc1Wave", osc1Wave, 0, nullptr, nullptr);
@@ -60,8 +55,8 @@ tree (*this, nullptr)
     NormalisableRange<float> osc2Transpose(-12, 12);
     tree.createAndAddParameter("osc2-transpose", "Osc2Transpose", "Osc2Transpose", osc2Transpose, 0, nullptr, nullptr);
     
-    NormalisableRange<float> osc2Tune(-12, 12);
-    tree.createAndAddParameter("osc2-tune", "Osc2Tune", "Osc2Tune", osc2Tune, 0, nullptr, nullptr);
+    NormalisableRange<float> osc2Volume(0, 2);
+    tree.createAndAddParameter("osc2-volume", "osc2-volume", "osc2-volume", osc2Volume, 1, nullptr, nullptr);
     
     NormalisableRange<float> osc2Wave(0, 2);
     tree.createAndAddParameter("osc2-wave", "Osc2Wave", "Osc2Wave", osc2Wave, 0, nullptr, nullptr);
@@ -69,24 +64,12 @@ tree (*this, nullptr)
     NormalisableRange<float> osc3Transpose(-12, 12);
     tree.createAndAddParameter("osc3-transpose", "Osc3Transpose", "Osc3Transpose", osc3Transpose, 0, nullptr, nullptr);
     
-    NormalisableRange<float> osc3Tune(-12, 12);
-    tree.createAndAddParameter("osc3-tune", "Osc3Tune", "Osc3Tune", osc3Tune, 0, nullptr, nullptr);
+    NormalisableRange<float> osc3Volume(0, 2);
+    tree.createAndAddParameter("osc3-volume", "osc3-volume", "osc3-volume", osc3Volume, 1, nullptr, nullptr);
     
     NormalisableRange<float> osc3Wave(0, 2);
     tree.createAndAddParameter("osc3-wave", "Osc3Wave", "Osc3Wave", osc3Wave, 0, nullptr, nullptr);
     
-    /*
-    
-    NormalisableRange<float> filterCutOffParam(20, 10000);
-    tree.createAndAddParameter("cutoff", "CutOff", "CutOff", filterCutOffParam, 400.0, nullptr, nullptr);
-    
-    NormalisableRange<float> resParam(1, 5);
-    tree.createAndAddParameter("res", "Res", "Res", resParam, 1, nullptr, nullptr);
-    
-    NormalisableRange<float> filterType(0, 2);
-    tree.createAndAddParameter("filterType", "FilterType", "FilterType", filterType, 0, nullptr, nullptr);
-    
-     */
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -209,12 +192,14 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     {
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
+            
             voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
-            //voice->getOscType(tree.getRawParameterValue("wavetype"));
-            //voice->getFilterParams(tree.getRawParameterValue("filterType"), tree.getRawParameterValue("cutoff"), tree.getRawParameterValue("res"));
-            //float* v = tree.getRawParameterValue("osc1-wave");
-            //std::cout << "Wave type:" << *v << std::endl;
+            
+            voice->setVolume(tree.getRawParameterValue("osc1-volume"), tree.getRawParameterValue("osc2-volume"), tree.getRawParameterValue("osc3-volume"));
+            
             voice->setWaveTypes(tree.getRawParameterValue("osc1-wave"), tree.getRawParameterValue("osc2-wave"), tree.getRawParameterValue("osc3-wave"));
+            
+            voice->setTranspose(tree.getRawParameterValue("osc1-transpose"), tree.getRawParameterValue("osc2-transpose"), tree.getRawParameterValue("osc3-transpose"));
         }
     }
     

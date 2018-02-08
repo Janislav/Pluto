@@ -66,13 +66,6 @@ public:
 
 private:
     //==============================================================================
-    
-    Array<float> waveTable;
-    double twSize;
-    double wtFreq;
-    double phase;
-    double increment;
-    double amplitute;
     Synthesiser synth;
     SynthVoice* voice;
     double lastSampleRate;

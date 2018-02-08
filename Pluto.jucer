@@ -52,6 +52,9 @@
       <FILE id="fapzbE" name="Osc.cpp" compile="1" resource="0" file="Source/Osc.cpp"/>
       <FILE id="SR17TM" name="Osc.h" compile="0" resource="0" file="Source/Osc.h"/>
       <FILE id="caS4eB" name="waves.h" compile="0" resource="0" file="Source/waves.h"/>
+      <FILE id="S55rlm" name="Mixer.cpp" compile="1" resource="0" file="Source/Mixer.cpp"/>
+      <FILE id="MMkmCv" name="Mixer.h" compile="0" resource="0" file="Source/Mixer.h"/>
+      <FILE id="pvORVO" name="midieffects.h" compile="0" resource="0" file="Source/midieffects.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

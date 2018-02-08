@@ -36,13 +36,13 @@ private:
     int WAVE;
     
     TextButton waveSelector;
+    Slider volume;
     Slider transpose;
-    Slider tune;
     Slider ghost;
     
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> waveVal;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> volumeVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> transposeVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> tuneVal;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)
 };
