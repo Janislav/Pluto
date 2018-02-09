@@ -2,15 +2,16 @@
 
 <JUCERPROJECT id="uLYZIy" name="Pluto" displaySplashScreen="1" reportAppUsage="1"
               splashScreenColour="Dark" projectType="audioplug" version="0.0.1"
-              bundleIdentifier="com.janislav.Pluto" includeBinaryInAppConfig="1"
-              cppLanguageStandard="11" companyCopyright="" buildVST="0" buildVST3="0"
-              buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0" buildStandalone="1"
-              enableIAA="0" pluginName="Pluto" pluginDesc="Pluto" pluginManufacturer="yourcompany"
-              pluginManufacturerCode="Manu" pluginCode="Ulyz" pluginChannelConfigs=""
-              pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="1"
-              pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0" pluginAUExportPrefix="PlutoAU"
-              pluginRTASCategory="" aaxIdentifier="com.yourcompany.Pluto" pluginAAXCategory="AAX_ePlugInCategory_Dynamics"
-              jucerVersion="5.2.0" companyName="">
+              bundleIdentifier="com.audioanarchists.Pluto" includeBinaryInAppConfig="1"
+              cppLanguageStandard="11" companyCopyright="audioanarchists" buildVST="0"
+              buildVST3="0" buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0"
+              buildStandalone="1" enableIAA="0" pluginName="Pluto" pluginDesc="Pluto"
+              pluginManufacturer="audioanarchists" pluginManufacturerCode="Manu"
+              pluginCode="Ulyz" pluginChannelConfigs="" pluginIsSynth="1" pluginWantsMidiIn="1"
+              pluginProducesMidiOut="1" pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0"
+              pluginAUExportPrefix="PlutoAU" pluginRTASCategory="" aaxIdentifier="com.yourcompany.Pluto"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="5.2.0"
+              companyName="audioanarchists">
   <MAINGROUP id="vXHMDB" name="Pluto">
     <GROUP id="{96B5DD81-55EC-C619-B0C6-5016740D1D4B}" name="Source">
       <FILE id="byHhQ7" name="PluginProcessor.cpp" compile="1" resource="0"
@@ -54,7 +55,6 @@
       <FILE id="caS4eB" name="waves.h" compile="0" resource="0" file="Source/waves.h"/>
       <FILE id="S55rlm" name="Mixer.cpp" compile="1" resource="0" file="Source/Mixer.cpp"/>
       <FILE id="MMkmCv" name="Mixer.h" compile="0" resource="0" file="Source/Mixer.h"/>
-      <FILE id="pvORVO" name="midieffects.h" compile="0" resource="0" file="Source/midieffects.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

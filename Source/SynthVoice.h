@@ -74,54 +74,35 @@ public:
         return frequency;
     }
     
-    double getWave(){
+    double generateWaveForOsc(int waveType, double wave, double volume, int transposeValue)
+    {
+        double transposedFrequency = transpose(transposeValue, frequency);
         
+        if(waveType == SINE)
+        {
+            wave = wave +  env.adsr(osc1.sinewave(transposedFrequency), env.trigger) * volume;
+        }
+        
+        if(waveType == SAW)
+        {
+            wave = wave +  env.adsr(osc1.saw(transposedFrequency), env.trigger) * volume;
+        }
+        
+        if(waveType == SQUARE)
+        {
+            wave = wave +  env.adsr(osc1.square(transposedFrequency), env.trigger) * volume;
+        }
+        
+        return wave;
+    }
+    
+    double getWave()
+    {
         double w = 0.0;
         
-        if(oscWave1 == SINE)
-        {
-            w =  env.adsr(osc1.sinewave(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
-        }
-        
-        if(oscWave1 == SAW)
-        {
-            w =  env.adsr(osc1.saw(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
-        }
-        
-        if(oscWave1 == SQUARE)
-        {
-            w =  env.adsr(osc1.square(transpose(osc1Transpose, frequency)), env.trigger) * osc1Volume;
-        }
-        
-        if(oscWave2 == SINE)
-        {
-            w =  w + env.adsr(osc1.sinewave(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
-        }
-        
-        if(oscWave2 == SAW)
-        {
-            w = w + env.adsr(osc1.saw(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
-        }
-        
-        if(oscWave2 == SQUARE)
-        {
-            w = w + env.adsr(osc1.square(transpose(osc2Transpose, frequency)), env.trigger) * osc2Volume;
-        }
-        
-        if(oscWave3 == SINE)
-        {
-            w =  w + env.adsr(osc1.sinewave(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
-        }
-        
-        if(oscWave3 == SAW)
-        {
-            w = w + env.adsr(osc1.saw(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
-        }
-        
-        if(oscWave3 == SQUARE)
-        {
-            w = w + env.adsr(osc1.square(transpose(osc3Transpose, frequency)), env.trigger) * osc3Volume;
-        }
+        w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose);
+        w = generateWaveForOsc(oscWave2, w, osc2Volume, osc2Transpose);
+        w = generateWaveForOsc(oscWave3, w, osc3Volume, osc3Transpose);
         
         return w/3;
     }
@@ -138,8 +119,6 @@ public:
         osc1Transpose = *t1;
         osc2Transpose = *t2;
         osc3Transpose = *t3;
-        
-        //std::cout << "t1 " << osc1Transpose << "t2 " << osc2Transpose << "t3 " << osc3Transpose << std::endl;
     }
     
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
