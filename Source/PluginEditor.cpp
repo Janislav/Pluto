@@ -18,7 +18,7 @@ PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (800, 200);
+    setSize (600, 400);
     addAndMakeVisible(o1);
     addAndMakeVisible(o2);
     addAndMakeVisible(o3);
@@ -49,5 +49,5 @@ void PlutoAudioProcessorEditor::resized()
     o1.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     o2.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     o3.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    envGui.setBounds(0, 200, 200, 200);
 }
