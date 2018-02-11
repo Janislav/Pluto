@@ -80,17 +80,17 @@ public:
         
         if(waveType == SINE)
         {
-            wave = wave +  env.adsr(osc1.sinewave(transposedFrequency), env.trigger) * volume;
+            wave = wave +  env.adsr(osc1.sinewave(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         if(waveType == SAW)
         {
-            wave = wave +  env.adsr(osc1.saw(transposedFrequency), env.trigger) * volume;
+            wave = wave +  env.adsr(osc1.saw(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         if(waveType == SQUARE)
         {
-            wave = wave +  env.adsr(osc1.square(transposedFrequency), env.trigger) * volume;
+            wave = wave +  env.adsr(osc1.square(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         return wave;
@@ -143,6 +143,10 @@ public:
     void controllerMoved(int controllerNumber, int newControllerValue)
     {}
     
+    void setSampleRate(double newSampleRate)
+    {
+    }
+    
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSample)
     {
         for(int sample = 0;sample < numSample;++sample)
@@ -174,6 +178,8 @@ private:
     int oscWave1;
     int oscWave2;
     int oscWave3;
+    
+    double sampleRate;
     
     maxiEnv env;
     maxiFilter filter1;

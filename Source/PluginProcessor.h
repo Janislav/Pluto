@@ -70,5 +70,8 @@ private:
     SynthVoice* voice;
     double lastSampleRate;
     
+    Reverb reverb;
+    Reverb::Parameters reverbParameters;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessor)
 };

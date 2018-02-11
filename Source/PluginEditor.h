@@ -12,10 +12,10 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Oscillator.h"
 #include "Envelope.h"
 #include "Filter.h"
 #include "Osc.h"
+#include "ReverbUI.h"
 
 //==============================================================================
 /**
@@ -35,9 +35,9 @@ private:
     // access the processor object that created it.
     PlutoAudioProcessor& processor;
     
-    Oscillator oscGui;
     Envelope envGui;
     Filter filterGui;
+    ReverbUI reverbUi;
     
     Osc o1;
     Osc o2;

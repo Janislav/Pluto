@@ -21,7 +21,7 @@ processor(p)
     setSize(200, 200);
     
     attackSlider.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-    attackSlider.setRange(0.0, 5.0f);
+    attackSlider.setRange(0.0, 5000.0f);
     attackSlider.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     attackSlider.addListener(this);
     addAndMakeVisible(attackSlider);

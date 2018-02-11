@@ -16,11 +16,11 @@
 //==============================================================================
 /*
 */
-class Mixer    : public Component
+class ReverbUI    : public Component
 {
 public:
-    Mixer(PlutoAudioProcessor&);
-    ~Mixer();
+    ReverbUI(PlutoAudioProcessor&);
+    ~ReverbUI();
 
     void paint (Graphics&) override;
     void resized() override;
@@ -29,13 +29,15 @@ private:
     
     PlutoAudioProcessor& processor;
     
-    Slider osc1;
-    Slider osc2;
-    Slider osc3;
+    Slider dryLevel;
+    Slider wetLevel;
+    Slider roomSize;
+    Slider damping;
     
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> osc1Para;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> osc2Para;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> osc3Para;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> dryLevelPara;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> wetLevelPara;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> roomSizePara;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> dampingPara;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Mixer)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ReverbUI)
 };

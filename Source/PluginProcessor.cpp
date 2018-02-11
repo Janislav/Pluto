@@ -31,7 +31,7 @@ tree (*this, nullptr)
 #endif
 {
 
-    NormalisableRange<float> attackParam(0.0f, 5.0f);
+    NormalisableRange<float> attackParam(0.0f, 5000.0f);
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 3.0f, nullptr, nullptr);
     
     NormalisableRange<float> releaseParam(0.0f, 5000.0f);
@@ -69,6 +69,18 @@ tree (*this, nullptr)
     
     NormalisableRange<float> osc3Wave(0, 2);
     tree.createAndAddParameter("osc3-wave", "Osc3Wave", "Osc3Wave", osc3Wave, 0, nullptr, nullptr);
+    
+    NormalisableRange<float> dryLevel(0, 1);
+    tree.createAndAddParameter("dryLevel", "dryLevel", "dryLevel", dryLevel, 1, nullptr, nullptr);
+    
+    NormalisableRange<float> wetLevel(0, 2);
+    tree.createAndAddParameter("wetLevel", "wetLevel", "wetLevel", wetLevel, 0, nullptr, nullptr);
+    
+    NormalisableRange<float> roomSize(0, 1);
+    tree.createAndAddParameter("roomSize", "roomSize", "roomSize", roomSize, 0, nullptr, nullptr);
+    
+    NormalisableRange<float> damping(0, 1);
+    tree.createAndAddParameter("damping", "damping", "damping", damping, 0, nullptr, nullptr);
     
     synth.clearVoices();
     
@@ -152,6 +164,12 @@ void PlutoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     ignoreUnused(samplesPerBlock);
     lastSampleRate = sampleRate;
+    
+    reverb.setParameters(reverbParameters);
+    reverb.setSampleRate(sampleRate);
+    
+    reverb.reset();
+    
     synth.setCurrentPlaybackSampleRate(lastSampleRate);
 }
 
@@ -187,6 +205,12 @@ bool PlutoAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 
 void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    reverbParameters.dryLevel = *tree.getRawParameterValue("dryLevel");
+    reverbParameters.wetLevel = *tree.getRawParameterValue("wetLevel");
+    reverbParameters.roomSize = *tree.getRawParameterValue("roomSize");
+    reverbParameters.damping = *tree.getRawParameterValue("damping");
+    
+    reverb.setParameters(reverbParameters);
     
     for(int i = 0;i< synth.getNumVoices();i++)
     {
@@ -200,11 +224,14 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
             voice->setWaveTypes(tree.getRawParameterValue("osc1-wave"), tree.getRawParameterValue("osc2-wave"), tree.getRawParameterValue("osc3-wave"));
             
             voice->setTranspose(tree.getRawParameterValue("osc1-transpose"), tree.getRawParameterValue("osc2-transpose"), tree.getRawParameterValue("osc3-transpose"));
+            
+            voice->setSampleRate(lastSampleRate);
         }
     }
     
     buffer.clear();
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    reverb.processStereo(buffer.getWritePointer(0), buffer.getWritePointer(1), buffer.getNumSamples());
 }
 
 //==============================================================================
