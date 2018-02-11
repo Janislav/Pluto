@@ -53,6 +53,8 @@
       <FILE id="caS4eB" name="waves.h" compile="0" resource="0" file="Source/waves.h"/>
       <FILE id="S55rlm" name="ReverbUI.cpp" compile="1" resource="0" file="Source/ReverbUI.cpp"/>
       <FILE id="MMkmCv" name="ReverbUI.h" compile="0" resource="0" file="Source/ReverbUI.h"/>
+      <FILE id="oGCmBw" name="LFO.cpp" compile="1" resource="0" file="Source/LFO.cpp"/>
+      <FILE id="r3fPhr" name="LFO.h" compile="0" resource="0" file="Source/LFO.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

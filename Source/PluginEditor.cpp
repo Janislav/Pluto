@@ -24,6 +24,7 @@ PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
     addAndMakeVisible(o3);
     addAndMakeVisible(envGui);
     addAndMakeVisible(reverbUi);
+    addAndMakeVisible(filterGui);
 }
 
 PlutoAudioProcessorEditor::~PlutoAudioProcessorEditor()
@@ -52,4 +53,5 @@ void PlutoAudioProcessorEditor::resized()
     o3.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
     envGui.setBounds(0, 200, 200, 200);
     reverbUi.setBounds(200, 200, 200, 200);
+    filterGui.setBounds(400, 200, 200, 200);
 }

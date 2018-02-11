@@ -127,6 +127,15 @@ public:
         env.trigger = 1;
     }
     
+    void setFilterParameter(float* type, float* co, float* r)
+    {
+        filterType = *type;
+        cutOff = *co;
+        res = *r;
+        
+        //std::cout << "Type: " << filterType << "cutOff:" << cutOff << "res: " << res << std::endl;
+    }
+    
     void stopNote(float velocity, bool allowTailOff)
     {
         env.trigger = 0;
@@ -147,12 +156,34 @@ public:
     {
     }
     
+    double bandFilter(double wave)
+    {
+        
+        double w = 0.0;
+        
+        if(filterType == 0)
+        {
+            w = filter.lores(wave, cutOff, res);
+        }
+        if(filterType == 1)
+        {
+            w = filter.hires(wave, cutOff, res);
+        }
+        if(filterType == 2)
+        {
+            w = filter.bandpass(wave, cutOff, res);
+        }
+        
+        return w;
+    }
+    
     void renderNextBlock(AudioBuffer<float> &outputBuffer, int startSample, int numSample)
     {
         for(int sample = 0;sample < numSample;++sample)
         {
             double wave = getWave();
             //wave = filter1.lores(wave, 100, 0.1);
+            wave = bandFilter(wave);
             
             for(int channel = 0;channel < outputBuffer.getNumChannels(); ++channel)
             {
@@ -179,8 +210,12 @@ private:
     int oscWave2;
     int oscWave3;
     
+    int filterType;
+    float cutOff;
+    float res;
+    
     double sampleRate;
     
     maxiEnv env;
-    maxiFilter filter1;
+    maxiFilter filter;
 };

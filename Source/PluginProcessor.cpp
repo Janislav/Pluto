@@ -82,6 +82,15 @@ tree (*this, nullptr)
     NormalisableRange<float> damping(0, 1);
     tree.createAndAddParameter("damping", "damping", "damping", damping, 0, nullptr, nullptr);
     
+    NormalisableRange<float> filterType(0, 2);
+    tree.createAndAddParameter("filterType", "filterType", "filterType", filterType, 0, nullptr, nullptr);
+    
+    NormalisableRange<float> cutOff(20.0, 10000.0);
+    tree.createAndAddParameter("cutOff", "cutOff", "cutOff", cutOff, 2000, nullptr, nullptr);
+    
+    NormalisableRange<float> res(1, 5);
+    tree.createAndAddParameter("res", "res", "res", res, 1, nullptr, nullptr);
+    
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -216,16 +225,11 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     {
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
-            
             voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
-            
             voice->setVolume(tree.getRawParameterValue("osc1-volume"), tree.getRawParameterValue("osc2-volume"), tree.getRawParameterValue("osc3-volume"));
-            
             voice->setWaveTypes(tree.getRawParameterValue("osc1-wave"), tree.getRawParameterValue("osc2-wave"), tree.getRawParameterValue("osc3-wave"));
-            
             voice->setTranspose(tree.getRawParameterValue("osc1-transpose"), tree.getRawParameterValue("osc2-transpose"), tree.getRawParameterValue("osc3-transpose"));
-            
-            voice->setSampleRate(lastSampleRate);
+            voice->setFilterParameter(tree.getRawParameterValue("filterType"), tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"));
         }
     }
     

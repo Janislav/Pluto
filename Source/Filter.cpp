@@ -21,7 +21,7 @@ processor(p)
     
     filterMenu.addItem("Low Pass", 1);
     filterMenu.addItem("High Pass", 2);
-    filterMenu.addItem("Band Pass", 3);
+    //filterMenu.addItem("Band Pass", 3);
     filterMenu.setJustificationType(Justification::centred);
     addAndMakeVisible(filterMenu);
     
@@ -33,7 +33,7 @@ processor(p)
     filterCutOff.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     filterCutOff.setSkewFactorFromMidPoint(1000);
     
-    filterVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "cutoff", filterCutOff);
+    filterVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "cutOff", filterCutOff);
     
     addAndMakeVisible(filterCutOff);
     
@@ -62,13 +62,8 @@ void Filter::paint (Graphics& g)
     
     Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
-    g.fillAll(Colours::black);
     g.setColour(Colours::white);
-    g.drawText("Filter", titleArea, Justification::centredTop);
-    
-    Rectangle<float> area(25,25,150,150);
-    g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);
+    g.drawText("PASS-FILTER", titleArea, Justification::centredTop);
 }
 
 void Filter::resized()
