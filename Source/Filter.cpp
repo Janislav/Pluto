@@ -19,14 +19,6 @@ processor(p)
     // initialise any special settings that your component needs.
     setSize(200, 200);
     
-    filterMenu.addItem("Low Pass", 1);
-    filterMenu.addItem("High Pass", 2);
-    //filterMenu.addItem("Band Pass", 3);
-    filterMenu.setJustificationType(Justification::centred);
-    addAndMakeVisible(filterMenu);
-    
-    filterMenuVal = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "filterType", filterMenu);
-    
     filterCutOff.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     filterCutOff.setRange(20.0,10000.0);
     filterCutOff.setValue(400.0);
@@ -45,6 +37,14 @@ processor(p)
     resVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "res", filterRes);
     
     addAndMakeVisible(filterRes);
+    
+    lfoRate.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    lfoRate.setRange(0,2);
+    lfoRate.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    
+    lfoRateVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "lfoRate", lfoRate);
+    
+    addAndMakeVisible(lfoRate);
 }
 
 Filter::~Filter()
@@ -63,7 +63,7 @@ void Filter::paint (Graphics& g)
     Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
     g.setColour(Colours::white);
-    g.drawText("PASS-FILTER", titleArea, Justification::centredTop);
+    g.drawText("LOW-PASS", titleArea, Justification::centredTop);
 }
 
 void Filter::resized()
@@ -71,7 +71,7 @@ void Filter::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
     Rectangle<int> area = getLocalBounds().reduced(40);
-    filterMenu.setBounds(area.removeFromTop(20));
     filterCutOff.setBounds(30, 100, 70, 70);
     filterRes.setBounds(100,100,70,70);
+    lfoRate.setBounds(60, 40, 70, 70);
 }

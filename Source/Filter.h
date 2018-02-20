@@ -30,11 +30,11 @@ private:
     
     Slider filterCutOff;
     Slider filterRes;
-    ComboBox filterMenu;
+    Slider lfoRate;
     
-    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> filterMenuVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resVal;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> lfoRateVal;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

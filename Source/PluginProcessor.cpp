@@ -82,14 +82,14 @@ tree (*this, nullptr)
     NormalisableRange<float> damping(0, 1);
     tree.createAndAddParameter("damping", "damping", "damping", damping, 0, nullptr, nullptr);
     
-    NormalisableRange<float> filterType(0, 2);
-    tree.createAndAddParameter("filterType", "filterType", "filterType", filterType, 0, nullptr, nullptr);
-    
     NormalisableRange<float> cutOff(20.0, 10000.0);
     tree.createAndAddParameter("cutOff", "cutOff", "cutOff", cutOff, 2000, nullptr, nullptr);
     
     NormalisableRange<float> res(1, 5);
     tree.createAndAddParameter("res", "res", "res", res, 1, nullptr, nullptr);
+    
+    NormalisableRange<float> lfoRate(0, 2);
+    tree.createAndAddParameter("lfoRate", "lfoRate", "lfoRate", lfoRate, 0, nullptr, nullptr);
     
     synth.clearVoices();
     
@@ -177,6 +177,13 @@ void PlutoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     reverb.setParameters(reverbParameters);
     reverb.setSampleRate(sampleRate);
     
+    
+    arp.notes.clear();
+    arp.currentNote = 0;
+    arp.lastNoteValue = -1;
+    arp.time = 0.0;
+    arp.rate = static_cast<float> (sampleRate);
+    
     reverb.reset();
     
     synth.setCurrentPlaybackSampleRate(lastSampleRate);
@@ -229,9 +236,11 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
             voice->setVolume(tree.getRawParameterValue("osc1-volume"), tree.getRawParameterValue("osc2-volume"), tree.getRawParameterValue("osc3-volume"));
             voice->setWaveTypes(tree.getRawParameterValue("osc1-wave"), tree.getRawParameterValue("osc2-wave"), tree.getRawParameterValue("osc3-wave"));
             voice->setTranspose(tree.getRawParameterValue("osc1-transpose"), tree.getRawParameterValue("osc2-transpose"), tree.getRawParameterValue("osc3-transpose"));
-            voice->setFilterParameter(tree.getRawParameterValue("filterType"), tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"));
+            voice->setFilterParameter(tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"), tree.getRawParameterValue("lfoRate"));
         }
     }
+    
+    arp.process(midiMessages, buffer.getNumSamples());
     
     buffer.clear();
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());

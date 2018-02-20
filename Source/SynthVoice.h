@@ -74,9 +74,16 @@ public:
         return frequency;
     }
     
-    double generateWaveForOsc(int waveType, double wave, double volume, int transposeValue)
+    double generateWaveForOsc(int waveType, double wave, double volume, int transposeValue, int osc)
     {
-        double transposedFrequency = transpose(transposeValue, frequency);
+        
+        double transposedFrequency;
+        
+        if(osc == 3){
+            transposedFrequency = transpose(transposeValue, frequency / 4);
+        } else {
+            transposedFrequency = transpose(transposeValue, frequency);
+        }
         
         if(waveType == SINE)
         {
@@ -100,11 +107,12 @@ public:
     {
         double w = 0.0;
         
-        w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose);
-        w = generateWaveForOsc(oscWave2, w, osc2Volume, osc2Transpose);
-        w = generateWaveForOsc(oscWave3, w, osc3Volume, osc3Transpose);
+        w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose, 1);
+        w = generateWaveForOsc(oscWave2, w, osc2Volume, osc2Transpose, 2);
+        w = generateWaveForOsc(oscWave3, w, osc3Volume, osc3Transpose, 3);
         
-        return w/3;
+        double output = w/3;
+        return output;
     }
     
     void setVolume(float* osc1V, float* osc2V, float* osc3V)
@@ -127,13 +135,11 @@ public:
         env.trigger = 1;
     }
     
-    void setFilterParameter(float* type, float* co, float* r)
+    void setFilterParameter(float* co, float* r, float* lr)
     {
-        filterType = *type;
         cutOff = *co;
         res = *r;
-        
-        //std::cout << "Type: " << filterType << "cutOff:" << cutOff << "res: " << res << std::endl;
+        lfoRate = osc1.coswave(*lr);
     }
     
     void stopNote(float velocity, bool allowTailOff)
@@ -158,22 +164,8 @@ public:
     
     double bandFilter(double wave)
     {
-        
         double w = 0.0;
-        
-        if(filterType == 0)
-        {
-            w = filter.lores(wave, cutOff, res);
-        }
-        if(filterType == 1)
-        {
-            w = filter.hires(wave, cutOff, res);
-        }
-        if(filterType == 2)
-        {
-            w = filter.bandpass(wave, cutOff, res);
-        }
-        
+        w = filter.lores(wave, cutOff, res);
         return w;
     }
     
@@ -182,7 +174,6 @@ public:
         for(int sample = 0;sample < numSample;++sample)
         {
             double wave = getWave();
-            //wave = filter1.lores(wave, 100, 0.1);
             wave = bandFilter(wave);
             
             for(int channel = 0;channel < outputBuffer.getNumChannels(); ++channel)
@@ -206,13 +197,22 @@ private:
     float osc2Volume;
     float osc3Volume;
     
+    int triggerCount;
+    
     int oscWave1;
     int oscWave2;
     int oscWave3;
     
-    int filterType;
     float cutOff;
     float res;
+    double lfoRate;
+    
+    int lfoWave1;
+    float lfoRate1;
+    int lfoWave2;
+    float lfoRate2;
+    int lfoWave3;
+    float lfoRate3;
     
     double sampleRate;
     

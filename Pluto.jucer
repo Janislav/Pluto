@@ -55,6 +55,8 @@
       <FILE id="MMkmCv" name="ReverbUI.h" compile="0" resource="0" file="Source/ReverbUI.h"/>
       <FILE id="oGCmBw" name="LFO.cpp" compile="1" resource="0" file="Source/LFO.cpp"/>
       <FILE id="r3fPhr" name="LFO.h" compile="0" resource="0" file="Source/LFO.h"/>
+      <FILE id="S1bq0j" name="Arp.cpp" compile="1" resource="0" file="Source/Arp.cpp"/>
+      <FILE id="lfgfYp" name="Arp.h" compile="0" resource="0" file="Source/Arp.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>
@@ -175,4 +177,7 @@
     <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled"/>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
 </JUCERPROJECT>

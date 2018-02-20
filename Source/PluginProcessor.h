@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "SynthVoice.h"
+#include "Arp.h"
 
 //==============================================================================
 /**
@@ -69,6 +70,8 @@ private:
     Synthesiser synth;
     SynthVoice* voice;
     double lastSampleRate;
+    
+    Arp arp;
     
     Reverb reverb;
     Reverb::Parameters reverbParameters;
