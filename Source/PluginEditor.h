@@ -16,6 +16,7 @@
 #include "Filter.h"
 #include "Osc.h"
 #include "ReverbUI.h"
+#include "ArpUI.h"
 
 //==============================================================================
 /**
@@ -38,6 +39,7 @@ private:
     Envelope envGui;
     Filter filterGui;
     ReverbUI reverbUi;
+    ArpUI arpUI;
     
     Osc o1;
     Osc o2;

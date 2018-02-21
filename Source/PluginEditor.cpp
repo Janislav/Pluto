@@ -14,7 +14,7 @@
 
 //==============================================================================
 PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), envGui(p), filterGui(p), o1(p, "osc1", "OSC1"), o2(p, "osc2", "OSC2"), o3(p, "osc3", "OSC3"), reverbUi(p)
+    : AudioProcessorEditor (&p), processor (p), envGui(p), filterGui(p), o1(p, "osc1", "OSC1"), o2(p, "osc2", "OSC2"), o3(p, "osc3", "OSC3"), reverbUi(p), arpUI(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -25,6 +25,7 @@ PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
     addAndMakeVisible(envGui);
     addAndMakeVisible(reverbUi);
     addAndMakeVisible(filterGui);
+    addAndMakeVisible(arpUI);
 }
 
 PlutoAudioProcessorEditor::~PlutoAudioProcessorEditor()
@@ -54,4 +55,5 @@ void PlutoAudioProcessorEditor::resized()
     envGui.setBounds(0, 200, 200, 200);
     reverbUi.setBounds(200, 200, 200, 200);
     filterGui.setBounds(400, 200, 200, 200);
+    arpUI.setBounds(0, 400, 200, 200);
 }

@@ -91,6 +91,12 @@ tree (*this, nullptr)
     NormalisableRange<float> lfoRate(0, 2);
     tree.createAndAddParameter("lfoRate", "lfoRate", "lfoRate", lfoRate, 0, nullptr, nullptr);
     
+    NormalisableRange<float> rate(0.1, 50000);
+    tree.createAndAddParameter("rate", "rate", "rate", rate, 44100, nullptr, nullptr);
+    
+    NormalisableRange<float> speed(-2.0, 1.1);
+    tree.createAndAddParameter("speed", "speed", "speed", speed, 0, nullptr, nullptr);
+    
     synth.clearVoices();
     
     for(int i = 0;i < 5;i++)
@@ -182,7 +188,6 @@ void PlutoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     arp.currentNote = 0;
     arp.lastNoteValue = -1;
     arp.time = 0.0;
-    arp.rate = static_cast<float> (sampleRate);
     
     reverb.reset();
     
@@ -226,6 +231,9 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     reverbParameters.roomSize = *tree.getRawParameterValue("roomSize");
     reverbParameters.damping = *tree.getRawParameterValue("damping");
     
+    arp.speed = *tree.getRawParameterValue("speed");
+    arp.rate  = *tree.getRawParameterValue("rate");
+
     reverb.setParameters(reverbParameters);
     
     for(int i = 0;i< synth.getNumVoices();i++)

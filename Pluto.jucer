@@ -14,6 +14,8 @@
               companyName="audioanarchists">
   <MAINGROUP id="vXHMDB" name="Pluto">
     <GROUP id="{96B5DD81-55EC-C619-B0C6-5016740D1D4B}" name="Source">
+      <FILE id="VQL9cf" name="ArpUI.cpp" compile="1" resource="0" file="Source/ArpUI.cpp"/>
+      <FILE id="RvUr9O" name="ArpUI.h" compile="0" resource="0" file="Source/ArpUI.h"/>
       <FILE id="byHhQ7" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <GROUP id="{0402C25B-FE17-DA00-E494-9388C049C616}" name="Maximilian">
@@ -53,8 +55,6 @@
       <FILE id="caS4eB" name="waves.h" compile="0" resource="0" file="Source/waves.h"/>
       <FILE id="S55rlm" name="ReverbUI.cpp" compile="1" resource="0" file="Source/ReverbUI.cpp"/>
       <FILE id="MMkmCv" name="ReverbUI.h" compile="0" resource="0" file="Source/ReverbUI.h"/>
-      <FILE id="oGCmBw" name="LFO.cpp" compile="1" resource="0" file="Source/LFO.cpp"/>
-      <FILE id="r3fPhr" name="LFO.h" compile="0" resource="0" file="Source/LFO.h"/>
       <FILE id="S1bq0j" name="Arp.cpp" compile="1" resource="0" file="Source/Arp.cpp"/>
       <FILE id="lfgfYp" name="Arp.h" compile="0" resource="0" file="Source/Arp.h"/>
       <FILE id="GG9b9J" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>

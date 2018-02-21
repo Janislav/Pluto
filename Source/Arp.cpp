@@ -11,19 +11,7 @@
 #include "Arp.h"
 
 void Arp::process(MidiBuffer& midi, int numSamples)
-{
-    
-    /*
-    MidiMessage instance;
-    if(midiMessages.isEmpty()) {
-        MidiMessage myNote = instance.noteOff(1, 36, float(0.7));
-        return;
-    }
-
-    MidiMessage myNote = instance.noteOn(1, 36, float(0.7));
-    midiMessages.addEvent(myNote, 0);
-    */
-    
+{    
     auto noteDuration = static_cast<int> (std::ceil (rate * 0.25f * (0.1f + (1.0f - (speed)))));
     
     MidiMessage msg;
