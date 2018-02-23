@@ -39,10 +39,17 @@ processor(p)
     addAndMakeVisible(filterRes);
     
     lfoRate.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    lfoRate.setRange(0,2);
+    lfoRate.setRange(0,3000);
     lfoRate.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     
+    lfoFreq.setSliderStyle(Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    lfoFreq.setRange(0,2000);
+    lfoFreq.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    
+    addAndMakeVisible(lfoFreq);
+    
     lfoRateVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "lfoRate", lfoRate);
+    lfoFreqVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "lfoFreq", lfoFreq);
     
     addAndMakeVisible(lfoRate);
 }
@@ -74,4 +81,5 @@ void Filter::resized()
     filterCutOff.setBounds(30, 100, 70, 70);
     filterRes.setBounds(100,100,70,70);
     lfoRate.setBounds(60, 40, 70, 70);
+    lfoFreq.setBounds(120, 40, 70, 70);
 }

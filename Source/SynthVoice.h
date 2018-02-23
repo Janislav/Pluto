@@ -21,10 +21,6 @@ class SynthVoice : public SynthesiserVoice
 {
 public:
     
-    double oscVal1;
-    double oscVal2;
-    double oscVal3;
-    
     bool canPlaySound(SynthesiserSound* sound)
     {
         return dynamic_cast<SynthSound*>(sound) != nullptr;
@@ -38,11 +34,9 @@ public:
         env.setSustain(double(*sustain));
     }
     
-    void setWaveTypes(float* osc1, float* osc2, float* osc3)
+    void setWaveTypes(float* osc1)
     {
         oscWave1 = *osc1;
-        oscWave2 = *osc2;
-        oscWave3 = *osc3;
     }
     
     double transpose(int v, double frequency)
@@ -74,30 +68,63 @@ public:
         return frequency;
     }
     
-    double generateWaveForOsc(int waveType, double wave, double volume, int transposeValue, int osc)
+    double generateWaveForOsc(int waveType, double wave, double volume, int transposeValue, int osc, double freq)
     {
         
         double transposedFrequency;
         
-        if(osc == 3){
-            transposedFrequency = transpose(transposeValue, frequency / 4);
-        } else {
-            transposedFrequency = transpose(transposeValue, frequency);
-        }
+
+        transposedFrequency = transpose(transposeValue, freq);
+
         
         if(waveType == SINE)
         {
-            wave = wave +  env.adsr(osc1.sinewave(transposedFrequency) * 0.5, env.trigger) * volume;
+            wave = env.adsr(osc1.sinewave(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         if(waveType == SAW)
         {
-            wave = wave +  env.adsr(osc1.saw(transposedFrequency) * 0.5, env.trigger) * volume;
+            wave = env.adsr(osc1.saw(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         if(waveType == SQUARE)
         {
-            wave = wave +  env.adsr(osc1.square(transposedFrequency) * 0.5, env.trigger) * volume;
+            wave = env.adsr(osc1.square(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == COS)
+        {
+            wave = env.adsr(osc1.coswave(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == PHASOR)
+        {
+            wave = env.adsr(osc1.phasor(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == TRIANGLE)
+        {
+            wave = env.adsr(osc1.triangle(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == SINEBUF)
+        {
+            wave = env.adsr(osc1.sinebuf(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == SINEBUF4)
+        {
+            wave = env.adsr(osc1.sinebuf4(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == SAWN)
+        {
+            wave = env.adsr(osc1.sawn(transposedFrequency) * 0.5, env.trigger) * volume;
+        }
+        
+        if(waveType == RECT)
+        {
+            wave = env.adsr(osc1.rect(transposedFrequency) * 0.5, env.trigger) * volume;
         }
         
         return wave;
@@ -107,26 +134,21 @@ public:
     {
         double w = 0.0;
         
-        w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose, 1);
-        w = generateWaveForOsc(oscWave2, w, osc2Volume, osc2Transpose, 2);
-        w = generateWaveForOsc(oscWave3, w, osc3Volume, osc3Transpose, 3);
+        w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose, 1, frequency);
+        w = w + env.adsr(osc1.noise() * 0.5, env.trigger) * noiseVolume;
         
-        double output = w/3;
-        return output;
+        return w / 2;
     }
     
-    void setVolume(float* osc1V, float* osc2V, float* osc3V)
+    void setVolume(float* osc1V, float* noiseV)
     {
         osc1Volume = *osc1V;
-        osc2Volume = *osc2V;
-        osc3Volume = *osc3V;
+        noiseVolume = * noiseV;
     }
     
-    void setTranspose(float* t1, float* t2, float* t3)
+    void setTranspose(float* t1)
     {
         osc1Transpose = *t1;
-        osc2Transpose = *t2;
-        osc3Transpose = *t3;
     }
     
     void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound, int currentPitchWheelPosition)
@@ -135,21 +157,12 @@ public:
         env.trigger = 1;
     }
     
-    void setFilterParameter(float* co, float* r, float* lr)
+    void setFilterParameter(float* co, float* r, float* lr, float* lfoFreq)
     {
         cutOff = *co;
         res = *r;
-        lfoRate = osc1.coswave(*lr);
-    }
-    
-    void stopNote(float velocity, bool allowTailOff)
-    {
-        env.trigger = 0;
-        allowTailOff = true;
-        if(velocity == 0)
-        {
-            clearCurrentNote();
-        }
+        lfoRate = osc1.sinewave(*lfoFreq);
+        cutOff = (cutOff + lfoRate * *lr);
     }
     
     void pitchWheelMoved(int newPitchWheelValue)
@@ -160,6 +173,16 @@ public:
     
     void setSampleRate(double newSampleRate)
     {
+    }
+    
+    void stopNote(float velocity, bool allowTailOff)
+    {
+        env.trigger = 0;
+        allowTailOff = true;
+        if(velocity == 0)
+        {
+            clearCurrentNote();
+        }
     }
     
     double bandFilter(double wave)
@@ -190,18 +213,11 @@ private:
     maxiOsc osc1;
     
     int osc1Transpose;
-    int osc2Transpose;
-    int osc3Transpose;
-    
     float osc1Volume;
-    float osc2Volume;
-    float osc3Volume;
-    
     int triggerCount;
-    
     int oscWave1;
-    int oscWave2;
-    int oscWave3;
+    
+    float noiseVolume;
     
     float cutOff;
     float res;

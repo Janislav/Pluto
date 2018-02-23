@@ -31,10 +31,12 @@ private:
     Slider filterCutOff;
     Slider filterRes;
     Slider lfoRate;
+    Slider lfoFreq;
     
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> filterVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> lfoRateVal;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> lfoFreqVal;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Filter)
 };

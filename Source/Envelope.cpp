@@ -68,11 +68,6 @@ void Envelope::paint (Graphics& g)
     g.drawText("Re", 77, 150, 20, 20, Justification::centredTop);
     g.drawText("De", 103, 150, 20, 20, Justification::centredTop);
     g.drawText("Su", 128, 150, 20, 20, Justification::centredTop);
-    
-    /**
-    Rectangle<float> area (25,25,150,150);
-    g.setColour(Colours::yellow);
-    g.drawRoundedRectangle(area, 20.0f, 2.0f);*/
 }
 
 void Envelope::resized()

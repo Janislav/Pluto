@@ -17,31 +17,28 @@
 //==============================================================================
 /*
 */
-class Osc    : public Component, private TextButton::Listener
+class Osc    : public Component
 {
 public:
-    Osc(PlutoAudioProcessor&, string id, string title);
+    Osc(PlutoAudioProcessor&);
     ~Osc();
 
     void paint (Graphics&) override;
     void resized() override;
-    void buttonClicked(Button* button) override;
 
 private:
     PlutoAudioProcessor& processor;
     
-    string title;
-    string id;
-    
     int WAVE;
     
-    TextButton waveSelector;
     Slider volume;
     Slider transpose;
-    Slider ghost;
+    Slider noise;
+    ComboBox wave;
     
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> waveVal;
+    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> waveVal;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> volumeVal;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> volumeNoise;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> transposeVal;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Osc)

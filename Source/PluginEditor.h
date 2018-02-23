@@ -42,8 +42,6 @@ private:
     ArpUI arpUI;
     
     Osc o1;
-    Osc o2;
-    Osc o3;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

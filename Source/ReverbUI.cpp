@@ -23,7 +23,7 @@ processor(p)
     addAndMakeVisible(dryLevel);
     
     wetLevel.setSliderStyle(Slider::SliderStyle::LinearBarVertical);
-    wetLevel.setRange(0.0, 2.0f);
+    wetLevel.setRange(0.0, 1.0f);
     wetLevel.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     addAndMakeVisible(wetLevel);
     

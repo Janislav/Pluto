@@ -14,14 +14,12 @@
 
 //==============================================================================
 PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), envGui(p), filterGui(p), o1(p, "osc1", "OSC1"), o2(p, "osc2", "OSC2"), o3(p, "osc3", "OSC3"), reverbUi(p), arpUI(p)
+    : AudioProcessorEditor (&p), processor (p), envGui(p), filterGui(p), o1(p), reverbUi(p), arpUI(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (600, 600);
     addAndMakeVisible(o1);
-    addAndMakeVisible(o2);
-    addAndMakeVisible(o3);
     addAndMakeVisible(envGui);
     addAndMakeVisible(reverbUi);
     addAndMakeVisible(filterGui);
@@ -50,10 +48,8 @@ void PlutoAudioProcessorEditor::resized()
     const int componentHeight = 200;
     
     o1.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    o2.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    o3.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
-    envGui.setBounds(0, 200, 200, 200);
-    reverbUi.setBounds(200, 200, 200, 200);
-    filterGui.setBounds(400, 200, 200, 200);
-    arpUI.setBounds(0, 400, 200, 200);
+    envGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    reverbUi.setBounds(0, 200, 200, 200);
+    filterGui.setBounds(area.removeFromLeft(componentWidth).removeFromTop(componentHeight));
+    arpUI.setBounds(200, 200, 200, 200);
 }

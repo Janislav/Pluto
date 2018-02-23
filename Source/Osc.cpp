@@ -12,19 +12,23 @@
 #include "Osc.h"
 
 //==============================================================================
-Osc::Osc(PlutoAudioProcessor& p, string id, string title) :
+Osc::Osc(PlutoAudioProcessor& p) :
 processor(p)
 {
-    this->id = id;
-    this->title = title;
-    
     setSize(200, 200);
     
     WAVE = SINE;
     
-    waveSelector.setName("waveSelector");
-    waveSelector.setButtonText("SINE");
-    waveSelector.addListener(this);
+    wave.addItem("SINE", 1);
+    wave.addItem("SAW", 2);
+    wave.addItem("SQUARE", 3);
+    wave.addItem("COS", 4);
+    wave.addItem("PHASOR", 5);
+    wave.addItem("TRIANGLE", 6);
+    wave.addItem("SINEBUF", 7);
+    wave.addItem("SINEBUF4", 8);
+    wave.addItem("SAWN", 9);
+    wave.addItem("RECT", 10);
     
     volume.setSliderStyle(Slider::SliderStyle::LinearBar);
     volume.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -33,20 +37,20 @@ processor(p)
     transpose.setSliderStyle(Slider::SliderStyle::LinearBar);
     transpose.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     transpose.setRange(-12, 12, 1);
+
+    noise.setSliderStyle(Slider::SliderStyle::LinearBar);
+    noise.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    noise.setRange(0, 2);
     
-    ghost.setRange(0, 2, 1);
-    ghost.setValue(WAVE);
+    volumeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "volume", volume);
+    transposeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "transpose", transpose);
+    waveVal = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wave", wave);
+    volumeNoise = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "noise", noise);
     
-    Rectangle<int> waveSelectorForm (38,35,125,75);
-    waveSelector.setBounds(waveSelectorForm);
-    
-    volumeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-volume", volume);
-    transposeVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-transpose", transpose);
-    waveVal = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, id+"-wave", ghost);
-    
-    addAndMakeVisible(waveSelector);
+    addAndMakeVisible(wave);
     addAndMakeVisible(volume);
     addAndMakeVisible(transpose);
+    addAndMakeVisible(noise);
 }
 
 Osc::~Osc()
@@ -58,38 +62,15 @@ void Osc::paint (Graphics& g)
     Rectangle<int> titleArea (0, 10, getWidth(), 20);
     
     g.setColour(Colours::white);
-    g.drawText(title, titleArea, Justification::centredTop);
+    g.drawText("OSC", titleArea, Justification::centredTop);
 }
 
 void Osc::resized()
 {
     Rectangle<int> area = getLocalBounds().reduced(40);
-    transpose.setBounds(38,120,125,20);
-    volume.setBounds(38,150,125,20);
-    waveSelector.setBounds(area.removeFromTop(20));
-}
-
-void Osc::buttonClicked(Button* button)
-{
-    if(WAVE == SINE)
-    {
-        WAVE = SAW;
-        waveSelector.setButtonText("SAW");
-        ghost.setValue(WAVE);
-        return;
-    }
-    if(WAVE == SAW)
-    {
-        WAVE = SQUARE;
-        waveSelector.setButtonText("SQUARE");
-        ghost.setValue(WAVE);
-        return;
-    }
-    if(WAVE == SQUARE)
-    {
-        WAVE = SINE;
-        waveSelector.setButtonText("SINE");
-        ghost.setValue(WAVE);
-        return;
-    }
+    
+    wave.setBounds(38,50,125,20);
+    transpose.setBounds(38,80,125,20);
+    volume.setBounds(38,110,125,20);
+    noise.setBounds(38,138,125,20);
 }
