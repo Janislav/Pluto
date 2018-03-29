@@ -29,11 +29,11 @@ private:
     
     PlutoAudioProcessor& processor;
     
-    Slider rate;
     Slider speed;
+    ComboBox modi;
     
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> ratePara;
     ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> speedPara;
+    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> modePara;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ArpUI)
 };

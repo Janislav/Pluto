@@ -135,7 +135,7 @@ public:
         double w = 0.0;
         
         w = generateWaveForOsc(oscWave1, w, osc1Volume, osc1Transpose, 1, frequency);
-        w = w + env.adsr(osc1.noise() * 0.5, env.trigger) * noiseVolume;
+        w = w + env.adsr(osc1.noise() * 0.2, env.trigger) * noiseVolume;
         
         return w / 2;
     }
@@ -157,12 +157,10 @@ public:
         env.trigger = 1;
     }
     
-    void setFilterParameter(float* co, float* r, float* lr, float* lfoFreq)
+    void setFilterParameter(float* co, float* r)
     {
         cutOff = *co;
         res = *r;
-        lfoRate = osc1.sinewave(*lfoFreq);
-        cutOff = (cutOff + lfoRate * *lr);
     }
     
     void pitchWheelMoved(int newPitchWheelValue)

@@ -73,17 +73,11 @@ tree (*this, nullptr)
     NormalisableRange<float> res(1, 5);
     tree.createAndAddParameter("res", "res", "res", res, 1, nullptr, nullptr);
     
-    NormalisableRange<float> lfoRate(0, 3000);
-    tree.createAndAddParameter("lfoRate", "lfoRate", "lfoRate", lfoRate, 0, nullptr, nullptr);
-    
-    NormalisableRange<float> lfoFreq(0, 2000);
-    tree.createAndAddParameter("lfoFreq", "lfoFreq", "lfoFreq", lfoFreq, 0, nullptr, nullptr);
-    
-    NormalisableRange<float> rate(0.1, 50000);
-    tree.createAndAddParameter("rate", "rate", "rate", rate, 44100, nullptr, nullptr);
-    
     NormalisableRange<float> speed(-2.0, 1.1);
     tree.createAndAddParameter("speed", "speed", "speed", speed, 0, nullptr, nullptr);
+    
+    NormalisableRange<float> mode(0, 2);
+    tree.createAndAddParameter("mode", "mode", "mode", mode, 0, nullptr, nullptr);
     
     synth.clearVoices();
     
@@ -219,7 +213,7 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     reverbParameters.damping =  *tree.getRawParameterValue("damping");
     
     arp.speed = *tree.getRawParameterValue("speed");
-    arp.rate  = *tree.getRawParameterValue("rate");
+    arp.mode = *tree.getRawParameterValue("mode");
 
     reverb.setParameters(reverbParameters);
     
@@ -228,10 +222,14 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
         if((voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))))
         {
             voice->getParam(tree.getRawParameterValue("attack"), tree.getRawParameterValue("release"), tree.getRawParameterValue("decay"), tree.getRawParameterValue("sustain"));
+            
             voice->setVolume(tree.getRawParameterValue("volume"), tree.getRawParameterValue("noise"));
+            
             voice->setWaveTypes(tree.getRawParameterValue("wave"));
+            
             voice->setTranspose(tree.getRawParameterValue("transpose"));
-            voice->setFilterParameter(tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"), tree.getRawParameterValue("lfoRate"), tree.getRawParameterValue("lfoFreq"));
+            
+            voice->setFilterParameter(tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"));
         }
     }
     

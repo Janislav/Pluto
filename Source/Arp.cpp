@@ -11,8 +11,28 @@
 #include "Arp.h"
 
 void Arp::process(MidiBuffer& midi, int numSamples)
-{    
-    auto noteDuration = static_cast<int> (std::ceil (rate * 0.25f * (0.1f + (1.0f - (speed)))));
+{
+    if(mode == 0)
+    {
+        modeOff(midi, numSamples);
+        return;
+    }
+    
+    if(mode == 1)
+    {
+        modeOne(midi, numSamples);
+        return;
+    }
+}
+
+void Arp::modeOff(MidiBuffer& midi, int numSamples)
+{
+    
+}
+
+void Arp::modeOne(MidiBuffer& midi, int numSamples)
+{
+    auto noteDuration = static_cast<int> (std::ceil (44100 * 0.25f * (0.1f + (1.0f - (speed)))));
     
     MidiMessage msg;
     int ignore;
@@ -34,14 +54,12 @@ void Arp::process(MidiBuffer& midi, int numSamples)
             midi.addEvent (MidiMessage::noteOff (1, lastNoteValue), offset);
             lastNoteValue = -1;
         }
-        
         if (notes.size() > 0)
         {
             currentNote = (currentNote + 1) % notes.size();
             lastNoteValue = notes[currentNote];
             midi.addEvent (MidiMessage::noteOn  (1, lastNoteValue, (uint8) 127), offset);
         }
-        
     }
     
     time = (time + numSamples) % noteDuration;

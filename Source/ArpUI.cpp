@@ -17,18 +17,17 @@ processor(p)
 {
     setSize(200, 200);
     
-    rate.setSliderStyle(Slider::SliderStyle::Rotary);
-    rate.setRange(0.1, 50000);
-    rate.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
-    addAndMakeVisible(rate);
+    modi.addItem("OFF", 1);
+    modi.addItem("ON", 2);
+    addAndMakeVisible(modi);
     
     speed.setSliderStyle(Slider::SliderStyle::Rotary);
     speed.setRange(-2.0, 1.1f);
     speed.setTextBoxStyle(Slider::NoTextBox,true, 0, 0);
     addAndMakeVisible(speed);
     
-    ratePara = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "rate", rate);
     speedPara = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "speed", speed);
+    modePara = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "mode", modi);
 }
 
 ArpUI::~ArpUI()
@@ -44,6 +43,6 @@ void ArpUI::paint (Graphics& g)
 
 void ArpUI::resized()
 {
-    rate.setBounds(30, 100, 70, 70);
-    speed.setBounds(100,100,70,70);
+    modi.setBounds(30, 30, 150, 50);
+    speed.setBounds(110,100,70,70);
 }

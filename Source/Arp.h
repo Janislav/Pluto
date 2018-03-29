@@ -20,5 +20,12 @@ public:
     int currentNote;
     float rate;
     float speed;
+    int click = 0;
+    bool sync;
+    float mode;
     void process(MidiBuffer& midiMessages, int numSamples);
+private:
+    void modeOff(MidiBuffer& midiMessages, int numSamples);
+    void modeOne(MidiBuffer& midiMessages, int numSamples);
+    void modeTwo(MidiBuffer& midiMessages, int numSamples);
 };
