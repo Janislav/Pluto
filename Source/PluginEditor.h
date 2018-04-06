@@ -12,11 +12,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Envelope.h"
-#include "Filter.h"
-#include "Osc.h"
-#include "ReverbUI.h"
-#include "ArpUI.h"
+#include "PlutoLookAndFeel.h"
+#include "RecordingThumbnail.h"
 
 //==============================================================================
 /**
@@ -36,12 +33,29 @@ private:
     // access the processor object that created it.
     PlutoAudioProcessor& processor;
     
-    Envelope envGui;
-    Filter filterGui;
-    ReverbUI reverbUi;
-    ArpUI arpUI;
+    //
+    Slider attackKnob;
+    Slider releaseKnob;
+    Slider decayKnob;
+    Slider sustainKnob;
+    ComboBox waveSelector;
+    Slider transposeSlider;
+    Slider noiseSlider;
+    Slider speedKnob;
+    ComboBox arp;
+    Slider cuttoffKnob;
+    Slider resonanceKnob;
+    ShapeButton clippingLED;
+    Label clipping;
+    RecordingThumbnail waveView;
+    Slider dryKnob;
+    Slider wetKnob;
+    Slider roomKnob;
+    Slider dampfKnob;
+    Slider masterKnob;
+    //
+    PlutoLookAndFeel laf;
     
-    Osc o1;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

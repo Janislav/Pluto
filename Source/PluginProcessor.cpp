@@ -30,7 +30,8 @@ sustainTime(0.1f),
 tree (*this, nullptr)
 #endif
 {
-
+    formatManager.registerBasicFormats();
+    
     NormalisableRange<float> attackParam(0.0f, 5000.0f);
     tree.createAndAddParameter("attack", "Attack", "Attack", attackParam, 3.0f, nullptr, nullptr);
     
@@ -56,28 +57,30 @@ tree (*this, nullptr)
     tree.createAndAddParameter("wave", "Wave", "Wave", osc1Wave, 0, nullptr, nullptr);
     
     NormalisableRange<float> dryLevel(0, 1);
-    tree.createAndAddParameter("dryLevel", "dryLevel", "dryLevel", dryLevel, 1, nullptr, nullptr);
+    tree.createAndAddParameter("dry", "dry", "dry", dryLevel, 1, nullptr, nullptr);
     
     NormalisableRange<float> wetLevel(0, 1);
-    tree.createAndAddParameter("wetLevel", "wetLevel", "wetLevel", wetLevel, 0, nullptr, nullptr);
+    tree.createAndAddParameter("wet", "wet", "wet", wetLevel, 0, nullptr, nullptr);
     
     NormalisableRange<float> roomSize(0, 1);
-    tree.createAndAddParameter("roomSize", "roomSize", "roomSize", roomSize, 0, nullptr, nullptr);
+    tree.createAndAddParameter("room", "room", "room", roomSize, 0, nullptr, nullptr);
     
     NormalisableRange<float> damping(0, 1);
-    tree.createAndAddParameter("damping", "damping", "damping", damping, 0, nullptr, nullptr);
+    tree.createAndAddParameter("dampf", "dampf", "dampf", damping, 0, nullptr, nullptr);
     
     NormalisableRange<float> cutOff(20.0, 10000.0);
-    tree.createAndAddParameter("cutOff", "cutOff", "cutOff", cutOff, 2000, nullptr, nullptr);
+    tree.createAndAddParameter("cutoff", "cutoff", "cutoff", cutOff, 2000, nullptr, nullptr);
     
     NormalisableRange<float> res(1, 5);
-    tree.createAndAddParameter("res", "res", "res", res, 1, nullptr, nullptr);
+    tree.createAndAddParameter("resonance", "resonance", "resonance", res, 1, nullptr, nullptr);
     
     NormalisableRange<float> speed(-2.0, 1.1);
     tree.createAndAddParameter("speed", "speed", "speed", speed, 0, nullptr, nullptr);
     
     NormalisableRange<float> mode(0, 2);
     tree.createAndAddParameter("mode", "mode", "mode", mode, 0, nullptr, nullptr);
+    
+    clipped = false;
     
     synth.clearVoices();
     
@@ -171,8 +174,10 @@ void PlutoAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     arp.time = 0.0;
     
     reverb.reset();
-    
     synth.setCurrentPlaybackSampleRate(lastSampleRate);
+    
+    thumbnail.reset (2, sampleRate);
+    nextSampleNum = 0;
 }
 
 void PlutoAudioProcessor::releaseResources()
@@ -207,10 +212,12 @@ bool PlutoAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) co
 
 void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    reverbParameters.dryLevel = *tree.getRawParameterValue("dryLevel");
-    reverbParameters.wetLevel = *tree.getRawParameterValue("wetLevel");
-    reverbParameters.roomSize = *tree.getRawParameterValue("roomSize");
-    reverbParameters.damping =  *tree.getRawParameterValue("damping");
+    reverbParameters.dryLevel = *tree.getRawParameterValue("dry");
+    reverbParameters.wetLevel = *tree.getRawParameterValue("wet");
+    reverbParameters.roomSize = *tree.getRawParameterValue("room");
+    reverbParameters.damping =  *tree.getRawParameterValue("dampf");
+    
+    clipped = false;
     
     arp.speed = *tree.getRawParameterValue("speed");
     arp.mode = *tree.getRawParameterValue("mode");
@@ -229,7 +236,7 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
             
             voice->setTranspose(tree.getRawParameterValue("transpose"));
             
-            voice->setFilterParameter(tree.getRawParameterValue("cutOff"), tree.getRawParameterValue("res"));
+            voice->setFilterParameter(tree.getRawParameterValue("cutoff"), tree.getRawParameterValue("resonance"));
         }
     }
     
@@ -238,6 +245,11 @@ void PlutoAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& m
     buffer.clear();
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
     reverb.processStereo(buffer.getWritePointer(0), buffer.getWritePointer(1), buffer.getNumSamples());
+    
+    thumbnail.addBlock(nextSampleNum, buffer, 0, buffer.getNumSamples());
+    nextSampleNum += buffer.getNumSamples();
+    
+    detectClipping(buffer);
 }
 
 //==============================================================================
@@ -270,4 +282,19 @@ void PlutoAudioProcessor::setStateInformation (const void* data, int sizeInBytes
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PlutoAudioProcessor();
+}
+
+void PlutoAudioProcessor::detectClipping(AudioSampleBuffer& buffer)
+{
+    for(int channel=0;channel < buffer.getNumChannels();channel++)
+    {
+        float* channeldata = buffer.getWritePointer(channel);
+        for(int sample=0;sample<buffer.getNumSamples();sample++)
+        {
+            if(channeldata[sample] <= -1 || channeldata[sample] >= 1)
+            {
+                clipped = true;
+            }
+        }
+    }
 }
