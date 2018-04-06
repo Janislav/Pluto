@@ -14,7 +14,7 @@
 
 //==============================================================================
 PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
-: AudioProcessorEditor (&p), processor (p), envGui(p), filterGui(p), o1(p), reverbUi(p), arpUI(p), clippingLED("clippingLED", Colours::red, Colours::red, Colours::red), waveView(p.thumbnail)
+: AudioProcessorEditor (&p), processor (p), clippingLED("clippingLED", Colours::red, Colours::red, Colours::red), waveView(p.thumbnail)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.

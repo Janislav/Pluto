@@ -12,11 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Envelope.h"
-#include "Filter.h"
-#include "Osc.h"
-#include "ReverbUI.h"
-#include "ArpUI.h"
 #include "PlutoLookAndFeel.h"
 #include "RecordingThumbnail.h"
 
@@ -59,15 +54,8 @@ private:
     Slider dampfKnob;
     Slider masterKnob;
     //
-    
-    Envelope envGui;
-    Filter filterGui;
-    ReverbUI reverbUi;
-    ArpUI arpUI;
     PlutoLookAndFeel laf;
     
-    
-    Osc o1;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };
