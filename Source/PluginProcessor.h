@@ -62,6 +62,10 @@ public:
     float releaseTime;
     float decayTime;
     float sustainTime;
+    float sampleRate;
+    bool clipped;
+    
+    AudioThumbnail thumbnail            { 512, formatManager, thumbnailCache };
     
     AudioProcessorValueTreeState tree;
 
@@ -70,6 +74,12 @@ private:
     Synthesiser synth;
     SynthVoice* voice;
     double lastSampleRate;
+    int64 nextSampleNum = 0;
+    
+    AudioFormatManager formatManager;
+    AudioThumbnailCache thumbnailCache  { 10 };
+    
+    void detectClipping(AudioSampleBuffer& buffer);
     
     Arp arp;
     

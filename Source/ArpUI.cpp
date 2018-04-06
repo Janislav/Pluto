@@ -44,5 +44,5 @@ void ArpUI::paint (Graphics& g)
 void ArpUI::resized()
 {
     modi.setBounds(30, 30, 150, 50);
-    speed.setBounds(110,100,70,70);
+    speed.setBounds(110,100,40,40);
 }

@@ -17,6 +17,8 @@
 #include "Osc.h"
 #include "ReverbUI.h"
 #include "ArpUI.h"
+#include "PlutoLookAndFeel.h"
+#include "RecordingThumbnail.h"
 
 //==============================================================================
 /**
@@ -36,10 +38,34 @@ private:
     // access the processor object that created it.
     PlutoAudioProcessor& processor;
     
+    //
+    Slider attackKnob;
+    Slider releaseKnob;
+    Slider decayKnob;
+    Slider sustainKnob;
+    ComboBox waveSelector;
+    Slider transposeSlider;
+    Slider noiseSlider;
+    Slider speedKnob;
+    ComboBox arp;
+    Slider cuttoffKnob;
+    Slider resonanceKnob;
+    ShapeButton clippingLED;
+    Label clipping;
+    RecordingThumbnail waveView;
+    Slider dryKnob;
+    Slider wetKnob;
+    Slider roomKnob;
+    Slider dampfKnob;
+    Slider masterKnob;
+    //
+    
     Envelope envGui;
     Filter filterGui;
     ReverbUI reverbUi;
     ArpUI arpUI;
+    PlutoLookAndFeel laf;
+    
     
     Osc o1;
 

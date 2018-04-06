@@ -14,6 +14,12 @@
               companyName="audioanarchists">
   <MAINGROUP id="vXHMDB" name="Pluto">
     <GROUP id="{96B5DD81-55EC-C619-B0C6-5016740D1D4B}" name="Source">
+      <FILE id="q7thTP" name="RecordingThumbnail.h" compile="0" resource="0"
+            file="Source/RecordingThumbnail.h"/>
+      <FILE id="BQmzQw" name="PlutoLookAndFeel.cpp" compile="1" resource="0"
+            file="Source/PlutoLookAndFeel.cpp"/>
+      <FILE id="YMd38A" name="PlutoLookAndFeel.h" compile="0" resource="0"
+            file="Source/PlutoLookAndFeel.h"/>
       <FILE id="VQL9cf" name="ArpUI.cpp" compile="1" resource="0" file="Source/ArpUI.cpp"/>
       <FILE id="RvUr9O" name="ArpUI.h" compile="0" resource="0" file="Source/ArpUI.h"/>
       <FILE id="byHhQ7" name="PluginProcessor.cpp" compile="1" resource="0"

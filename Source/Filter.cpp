@@ -63,6 +63,6 @@ void Filter::resized()
     // This method is where you should set the bounds of any child
     // components that your component contains..
     Rectangle<int> area = getLocalBounds().reduced(40);
-    filterCutOff.setBounds(30, 100, 70, 70);
-    filterRes.setBounds(100,100,70,70);
+    filterCutOff.setBounds(30, 100, 40, 40);
+    filterRes.setBounds(100,100, 40, 40);
 }
