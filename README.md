@@ -2,6 +2,6 @@
 
 A subtractive Synthesizer Plugin based on Juce.
 
-<img src="screenshot.png" height="250">
+<img src="screenshot.png" height="500">
 
 ## Features
