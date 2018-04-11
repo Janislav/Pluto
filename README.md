@@ -19,4 +19,4 @@ A subtractive synthesizer plugin based on Juce.
 
 ## Download
 
-You can find all versions for all available platforms [here](http://).
+You can find all versions for all available platforms [here](https://github.com/Janislav/Pluto/tree/master/releases).
