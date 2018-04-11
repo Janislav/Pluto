@@ -2,7 +2,6 @@
 
 A subtractive Synthesizer Plugin based on Juce.
 
-![GitHub Logo](screenshot.png)
-Format: ![Alt Text](url)
+![Pluto_Screenshot](screenshot.png =250px)
 
 ## Features
