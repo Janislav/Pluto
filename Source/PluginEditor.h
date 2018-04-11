@@ -31,9 +31,9 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
+    PlutoLookAndFeel laf;
     PlutoAudioProcessor& processor;
     
-    //
     Slider attackKnob;
     Slider releaseKnob;
     Slider decayKnob;
@@ -53,9 +53,23 @@ private:
     Slider roomKnob;
     Slider dampfKnob;
     Slider masterKnob;
-    //
-    PlutoLookAndFeel laf;
     
+    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> waveAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> decayAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> sustainAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> resonanceAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> cutoffAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> speedAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::ComboBoxAttachment> arpAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> transposeAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> noiseAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> masterAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> dryAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> wetAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> roomAttachment;
+    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> dampfAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlutoAudioProcessorEditor)
 };

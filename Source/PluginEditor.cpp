@@ -18,6 +18,7 @@ PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    //setLookAndFeel (nullptr);
     setLookAndFeel(&laf);
     setSize (466, 335);
     
@@ -114,34 +115,36 @@ PlutoAudioProcessorEditor::PlutoAudioProcessorEditor (PlutoAudioProcessor& p)
     addAndMakeVisible(masterKnob);
     
     //ENVELOPE
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "decay", decayKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "sustain", sustainKnob);
+    attackAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "attack", attackKnob);
+    releaseAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "release", releaseKnob);
+    decayAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "decay", decayKnob);
+    sustainAttachment  = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "sustain", sustainKnob);
     
     //LOW-PASS
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "resonance", resonanceKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "cutoff", cuttoffKnob);
+    resonanceAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "resonance", resonanceKnob);
+    cutoffAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "cutoff", cuttoffKnob);
     
     //ARP
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "speed", speedKnob);
-    new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "mode", arp);
+    speedAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "speed", speedKnob);
+    arpAttachment = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "mode", arp);
     
     //OSC
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "transpose", transposeSlider);
-    new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wave", waveSelector);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "noise", noiseSlider);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "volume", masterKnob);
+    transposeAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "transpose", transposeSlider);
+    waveAttachment = new AudioProcessorValueTreeState::ComboBoxAttachment(processor.tree, "wave", waveSelector);
+    noiseAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "noise", noiseSlider);
+    masterAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "volume", masterKnob);
     
     //REVERB
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "dry", dryKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "wet", wetKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "room", roomKnob);
-    new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "dampf", dampfKnob);
+    dryAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "dry", dryKnob);
+    wetAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "wet", wetKnob);
+    roomAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "room", roomKnob);
+    dampfAttachment = new AudioProcessorValueTreeState::SliderAttachment(processor.tree, "dampf", dampfKnob);
 }
 
 PlutoAudioProcessorEditor::~PlutoAudioProcessorEditor()
 {
+    //deleteAllChildren();
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
@@ -185,13 +188,6 @@ void PlutoAudioProcessorEditor::paint (Graphics& g)
         clippingLED.setColours(Colours::grey, Colours::grey, Colours::grey);
         clippingLED.setShape(pp, false, false, false);
     }
-    
-    /**
-    const String colourString2 ("000000");
-    const Colour fontColor (Colour::fromString ("FF" + colourString2));
-    g.setColour (fontColor);
-    g.setFont (15.0f);
-     */
 }
 
 void PlutoAudioProcessorEditor::resized()

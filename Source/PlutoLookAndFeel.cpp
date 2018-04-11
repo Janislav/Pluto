@@ -31,9 +31,15 @@ PlutoLookAndFeel::PlutoLookAndFeel()
     setColour (TextButton::textColourOffId, fontColor);
 }
 
+PlutoLookAndFeel::~PlutoLookAndFeel()
+{
+    
+}
+
 void PlutoLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos,
                                    const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider)
 {
+    
     const float radius = jmin (width / 2, height / 2) - 4.0f;
     const float centreX = x + width * 0.5f;
     const float centreY = y + height * 0.5f;
@@ -54,8 +60,6 @@ void PlutoLookAndFeel::drawRotarySlider(Graphics& g, int x, int y, int width, in
     // fill
     g.setColour (background);
     g.fillEllipse (rx, ry, rw, rw);
-    // outline
-    //g.setColour (Colour::fromFloatRGBA(166, 156, 220, 5));
     g.setColour(border);
     g.drawEllipse (rx, ry, rw, rw, 1.0f);
     

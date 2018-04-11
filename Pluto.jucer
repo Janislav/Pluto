@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="uLYZIy" name="Pluto" displaySplashScreen="1" reportAppUsage="1"
-              splashScreenColour="Dark" projectType="audioplug" version="0.0.1"
+              splashScreenColour="Light" projectType="audioplug" version="0.1.0"
               bundleIdentifier="com.audioanarchists.Pluto" includeBinaryInAppConfig="1"
               cppLanguageStandard="11" companyCopyright="audioanarchists" buildVST="0"
               buildVST3="0" buildAU="1" buildAUv3="0" buildRTAS="0" buildAAX="0"
               buildStandalone="1" enableIAA="0" pluginName="Pluto" pluginDesc="Pluto"
-              pluginManufacturer="audioanarchists" pluginManufacturerCode="Manu"
+              pluginManufacturer="audioanarchists" pluginManufacturerCode="AuAs"
               pluginCode="Ulyz" pluginChannelConfigs="" pluginIsSynth="1" pluginWantsMidiIn="1"
               pluginProducesMidiOut="1" pluginIsMidiEffectPlugin="0" pluginEditorRequiresKeys="0"
-              pluginAUExportPrefix="PlutoAU" pluginRTASCategory="" aaxIdentifier="com.yourcompany.Pluto"
+              pluginAUExportPrefix="PlutoAU" pluginRTASCategory="" aaxIdentifier="com.audioanarchists.Pluto"
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="5.2.0"
-              companyName="audioanarchists">
+              companyName="audioanarchists" companyEmail="janislav92@gmail.com">
   <MAINGROUP id="vXHMDB" name="Pluto">
     <GROUP id="{96B5DD81-55EC-C619-B0C6-5016740D1D4B}" name="Source">
       <FILE id="q7thTP" name="RecordingThumbnail.h" compile="0" resource="0"

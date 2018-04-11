@@ -45,7 +45,7 @@
 
 // END SECTION A
 
-#define JUCE_USE_DARK_SPLASH_SCREEN 1
+#define JUCE_USE_DARK_SPLASH_SCREEN 0
 
 //==============================================================================
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics             1
@@ -303,10 +303,10 @@
  #define JucePlugin_ManufacturerWebsite    ""
 #endif
 #ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      ""
+ #define JucePlugin_ManufacturerEmail      "janislav92@gmail.com"
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
+ #define JucePlugin_ManufacturerCode       0x41754173 // 'AuAs'
 #endif
 #ifndef  JucePlugin_PluginCode
  #define JucePlugin_PluginCode             0x556c797a // 'Ulyz'
@@ -327,13 +327,13 @@
  #define JucePlugin_EditorRequiresKeyboardFocus  0
 #endif
 #ifndef  JucePlugin_Version
- #define JucePlugin_Version                0.0.1
+ #define JucePlugin_Version                0.1.0
 #endif
 #ifndef  JucePlugin_VersionCode
- #define JucePlugin_VersionCode            0x1
+ #define JucePlugin_VersionCode            0x100
 #endif
 #ifndef  JucePlugin_VersionString
- #define JucePlugin_VersionString          "0.0.1"
+ #define JucePlugin_VersionString          "0.1.0"
 #endif
 #ifndef  JucePlugin_VSTUniqueID
  #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
@@ -375,7 +375,7 @@
  #define JucePlugin_RTASDisableMultiMono   0
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.Pluto
+ #define JucePlugin_AAXIdentifier          com.audioanarchists.Pluto
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
