@@ -16,3 +16,7 @@ A subtractive synthesizer plugin based on Juce.
 - Reverb effect
 - Master volume controll
 - Wave monitor
+
+## Download
+
+You can find all versions for all available platforms [here](http://).
