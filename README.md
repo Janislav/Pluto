@@ -1,4 +1,4 @@
-# Pluto
+# Pluto - v0.1.0
 
 A subtractive synthesizer plugin based on Juce.
 
