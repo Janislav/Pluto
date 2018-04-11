@@ -1,10 +1,8 @@
 # Pluto
-An additive Synthesizer
 
-## Introduction
+A subtractive Synthesizer Plugin based on Juce.
 
-TODO
+![GitHub Logo](screenshot.png)
+Format: ![Alt Text](url)
 
-## Development setup
-
-TODO
+## Features
